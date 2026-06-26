@@ -1,0 +1,13 @@
+{
+  "name": "arqsemfiltro-catalogo",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Catalogo de afiliados @arq.semfiltro - gerado a partir do Notion",
+  "scripts": {
+    "build": "node build.js"
+  },
+  "dependencies": {
+    "@notionhq/client": "^2.2.15"
+  }
+}
