@@ -157,24 +157,6 @@ footer p{color:#A8A293;max-width:40ch;font-size:14px;margin-top:10px}
 footer .disc{font-family:'IBM Plex Mono',monospace;font-size:10px;color:#7A7568;letter-spacing:.04em;max-width:48ch;line-height:1.8}
 footer a.ig{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--signal);text-decoration:none;letter-spacing:.05em}
 footer a.ig:hover{text-decoration:underline}
-/* GRID DE CATEGORIAS */
-.catgrid-sec{border-bottom:1.5px solid var(--ink);background:var(--white);padding:0}
-.catgrid-sec .wrap{padding-top:0;padding-bottom:0}
-.catgrid-intro{padding:36px 28px 28px;border-bottom:1px solid var(--line)}
-.catgrid-intro p{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
-.catgrid-intro p::before{content:"→ ";color:var(--signal-deep)}
-.catgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:0;border-left:1.5px solid var(--ink)}
-.catgrid-item{border-right:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);text-decoration:none;color:var(--ink);display:flex;flex-direction:column;justify-content:space-between;padding:20px 18px 16px;min-height:110px;transition:background .15s,color .15s;position:relative;overflow:hidden}
-.catgrid-item:hover{background:var(--signal);color:var(--ink)}
-.catgrid-item:hover .catgrid-arr{transform:translate(2px,-2px)}
-.catgrid-item:hover .catgrid-num{color:var(--ink)}
-.catgrid-num{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.1em;color:var(--signal-deep);margin-bottom:10px;transition:color .15s}
-.catgrid-name{font-family:'Archivo',sans-serif;font-weight:700;font-size:15px;line-height:1.2;flex:1}
-.catgrid-arr{font-size:18px;align-self:flex-end;margin-top:12px;transition:transform .2s;color:var(--ink-soft)}
-/* linha decorativa de fundo */
-.catgrid-item::before{content:"";position:absolute;right:-8px;bottom:-8px;width:48px;height:48px;border:1.5px solid var(--line);border-radius:50%;opacity:.4;transition:opacity .15s}
-.catgrid-item:hover::before{opacity:0}
-
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
@@ -197,15 +179,6 @@ footer a.ig:hover{text-decoration:underline}
 </section>
 
 <nav class="catnav" aria-label="Categorias"><div class="wrap" id="catnav"></div></nav>
-
-<section class="catgrid-sec">
-  <div class="catgrid-intro wrap">
-    <p>Filtre pelo que faz sentido pro seu negócio</p>
-  </div>
-  <div class="wrap" style="padding-top:0;padding-bottom:0">
-    <div class="catgrid" id="catgrid"></div>
-  </div>
-</section>
 
 <main class="wrap">
   <section class="featured" id="destaques" hidden>
@@ -312,16 +285,12 @@ function buildSlider(destaques){
   slidesEl.innerHTML=destaques.map(p=>{
     const img=p.imagem?`<img src="${esc(p.imagem)}" alt="${esc(p.nome)}" loading="lazy">`:'<span class="stag">[ sem foto ]</span>';
     const cup=p.cupom?`<div class="scupom"><small>Cupom</small> ${esc(p.cupom)}</div>`:'';
-    // descrição com fallback — nunca mostra URL
-    const desc=p.descricao&&!p.descricao.startsWith('http')?p.descricao:'';
-    const lojatag=p.loja?`<span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#7A7568;margin-bottom:6px;display:block">${esc(p.loja)}</span>`:'';
     return `<article class="slide">
       <div class="simg">${img}</div>
       <div class="sbody">
         <div class="sribbon">Destaque</div>
-        ${lojatag}
         <h3>${esc(p.nome)}</h3>
-        ${desc?`<p class="sdesc">${esc(desc)}</p>`:''}
+        <p class="sdesc">${esc(p.descricao)}</p>
         ${cup}
         <a class="btn" href="${esc(p.link)}" target="_blank" rel="${REL}">Ver na loja <span class="arr">→</span></a>
       </div></article>`;
@@ -446,20 +415,6 @@ function makeCard(p){
   return el;
 }
 
-/* ---- GRID DE CATEGORIAS ---- */
-function buildCatGrid(cats){
-  const el=document.getElementById('catgrid');
-  if(!cats.length){el.parentElement.parentElement.hidden=true;return}
-  el.innerHTML=cats.map((c,i)=>`
-    <a class="catgrid-item" href="#${slug(c)}">
-      <div>
-        <div class="catgrid-num">A-${String(i+1).padStart(2,'0')}</div>
-        <div class="catgrid-name">${esc(c)}</div>
-      </div>
-      <span class="catgrid-arr">↗</span>
-    </a>`).join('');
-}
-
 /* ---- RENDER ---- */
 function render(data){
   const cats=data.categorias||[];
@@ -467,8 +422,6 @@ function render(data){
 
   document.getElementById('catnav').innerHTML=cats.map((c,i)=>
     `<a href="#${slug(c)}"><b>A-${String(i+1).padStart(2,'0')}</b>${esc(c)}</a>`).join('');
-
-  buildCatGrid(cats);
 
   buildSlider(prod.filter(p=>p.destaque));
 
