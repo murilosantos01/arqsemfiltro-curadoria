@@ -47,82 +47,103 @@ body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);-we
 .catnav a:hover,.catnav a.active{background:var(--signal);color:var(--ink)}
 .catnav a b{color:var(--ink);margin-right:8px}
 
-/* ===== BANNER ROTATIVO ===== */
+/* SLIDER DE DESTAQUES */
 .featured{padding:48px 0 8px}
 .section-head{display:flex;align-items:baseline;gap:16px;margin-bottom:24px}
 .section-head .sheet{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.1em;color:var(--signal-deep)}
 .section-head h2{font-family:'Archivo',sans-serif;font-weight:800;font-size:clamp(22px,3vw,30px);letter-spacing:-.01em}
 .section-head .rule{flex:1;height:1.5px;background:var(--ink);align-self:center}
-
 .slider{position:relative;border:1.5px solid var(--ink);overflow:hidden;background:var(--ink)}
 .slides{display:flex;transition:transform .5s cubic-bezier(.4,0,.2,1)}
 .slide{flex:0 0 100%;display:grid;grid-template-columns:1fr;min-height:280px}
 @media(min-width:600px){.slide{grid-template-columns:42% 1fr}}
-.slide .simg{position:relative;overflow:hidden;background:linear-gradient(135deg,#2A2620,#1C1A14),repeating-linear-gradient(45deg,rgba(242,183,5,.06) 0 2px,transparent 2px 16px);display:flex;align-items:flex-end;padding:16px;min-height:200px}
+.slide .simg{position:relative;overflow:hidden;background:linear-gradient(135deg,#2A2620,#1C1A14);display:flex;align-items:flex-end;padding:16px;min-height:200px}
 .slide .simg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .slide .simg .stag{position:relative;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;color:var(--signal);text-transform:uppercase}
 .slide .sbody{padding:28px 28px 24px;display:flex;flex-direction:column;justify-content:center;color:var(--white)}
 .slide .sribbon{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--signal);margin-bottom:10px}
 .slide h3{font-family:'Archivo',sans-serif;font-weight:800;font-size:clamp(20px,3vw,30px);line-height:1.05;letter-spacing:-.01em;margin-bottom:10px}
 .slide p.sdesc{color:#CFCABA;font-size:15px;margin-bottom:20px;max-width:44ch}
-
-/* cupom no slide */
 .slide .scupom{display:inline-flex;align-items:center;gap:8px;background:rgba(242,183,5,.12);border:1px solid var(--signal);color:var(--signal);font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.08em;padding:6px 12px;margin-bottom:16px;text-transform:uppercase;width:fit-content}
-
 .btn{display:inline-flex;align-items:center;gap:10px;align-self:flex-start;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;background:var(--signal);color:var(--ink);border:1.5px solid var(--signal);padding:12px 20px;border-radius:var(--r);transition:transform .12s,background .15s;cursor:pointer}
 .btn:hover{background:var(--signal-deep);border-color:var(--signal-deep);transform:translate(-2px,-2px);box-shadow:4px 4px 0 rgba(255,255,255,.15)}
 .btn .arr{transition:transform .15s}
 .btn:hover .arr{transform:translateX(3px)}
-
-/* controles do slider */
 .slider-controls{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:rgba(23,21,15,.7);border-top:1px solid rgba(255,255,255,.08)}
 .slider-dots{display:flex;gap:8px}
-.dot{width:24px;height:3px;background:rgba(255,255,255,.25);cursor:pointer;transition:background .2s,width .2s}
+.dot{width:24px;height:3px;background:rgba(255,255,255,.25);cursor:pointer;transition:background .2s,width .2s;border:none}
 .dot.active{background:var(--signal);width:36px}
 .slider-arrows{display:flex;gap:8px}
 .sarr{width:36px;height:36px;border:1px solid rgba(255,255,255,.2);background:transparent;color:var(--white);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:background .15s}
 .sarr:hover{background:var(--signal);border-color:var(--signal);color:var(--ink)}
 
-/* ===== CATÁLOGO ===== */
+/* CATÁLOGO */
 .catsec{padding:52px 0 8px;scroll-margin-top:130px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:0;border-top:1.5px solid var(--ink);border-left:1.5px solid var(--ink)}
 
+/* CARD */
 .card{border-right:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);background:var(--white);display:flex;flex-direction:column;cursor:pointer;transition:background .15s}
 .card:hover{background:var(--paper)}
-.card .cimg{aspect-ratio:4/3;position:relative;overflow:hidden;border-bottom:1px solid var(--line);background:linear-gradient(135deg,var(--paper-2),#DBD7CC);display:flex;align-items:center;justify-content:center}
-.card .cimg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.card .cimg .placeholder{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;color:#9C9685;text-transform:uppercase;text-align:center;padding:0 14px}
-/* badge de cupom na imagem */
-.card .cimg .badge-cupom{position:absolute;top:10px;right:10px;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.06em;color:var(--ink);background:var(--signal);padding:3px 7px;text-transform:uppercase;z-index:2}
+
+/* Área de imagem do card */
+.card .cimg-wrap{border-bottom:1px solid var(--line)}
+.card .cimg-main{aspect-ratio:4/3;position:relative;overflow:hidden;background:linear-gradient(135deg,var(--paper-2),#DBD7CC);display:flex;align-items:center;justify-content:center}
+.card .cimg-main img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .2s}
+.card .cimg-main img.fade{opacity:0}
+.card .placeholder{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;color:#9C9685;text-transform:uppercase;text-align:center;padding:0 14px}
+.badge-cupom{position:absolute;top:10px;right:10px;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.06em;color:var(--ink);background:var(--signal);padding:3px 7px;text-transform:uppercase;z-index:2}
+
+/* Miniaturas no card */
+.card .cthumbs{display:flex;gap:4px;padding:6px 8px;background:var(--paper-2);border-top:1px solid var(--line)}
+.card .cthumb{width:40px;height:40px;object-fit:cover;cursor:pointer;opacity:.55;border:1.5px solid transparent;transition:opacity .15s,border-color .15s;flex-shrink:0}
+.card .cthumb.active{opacity:1;border-color:var(--signal-deep)}
+.card .cthumb:hover{opacity:.85}
+
 .card .cbody{padding:16px 16px 14px;display:flex;flex-direction:column;flex:1}
 .card h3{font-family:'Archivo',sans-serif;font-weight:700;font-size:17px;line-height:1.2;letter-spacing:-.01em;margin-bottom:8px}
 .card .cdesc{font-size:13px;color:var(--ink-soft);flex:1;margin-bottom:14px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .card .cfoot{border-top:1px solid var(--line);margin:0 -16px -14px;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:8px}
-/* loja bem pequena */
 .card .cloja{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;color:#B0AB9E;text-transform:uppercase}
 .card .cbtn{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ink);display:inline-flex;align-items:center;gap:5px;text-decoration:none;background:var(--signal);padding:6px 12px;border-radius:var(--r);transition:background .15s}
 .card .cbtn:hover{background:var(--signal-deep)}
 .card .cbtn .arr{transition:transform .12s}
 .card .cbtn:hover .arr{transform:translateX(2px)}
 
-/* ===== MODAL ===== */
-.modal-bg{position:fixed;inset:0;background:rgba(23,21,15,.7);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .2s}
+/* MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(23,21,15,.75);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .2s}
 .modal-bg.open{opacity:1;pointer-events:all}
-.modal{background:var(--white);border:1.5px solid var(--ink);max-width:680px;width:100%;max-height:90vh;overflow-y:auto;position:relative;display:grid;grid-template-columns:1fr;transform:translateY(16px);transition:transform .25s}
-@media(min-width:540px){.modal{grid-template-columns:42% 1fr}}
+.modal{background:var(--white);border:1.5px solid var(--ink);max-width:720px;width:100%;max-height:90vh;overflow-y:auto;position:relative;display:grid;grid-template-columns:1fr;transform:translateY(16px);transition:transform .25s}
+@media(min-width:560px){.modal{grid-template-columns:46% 1fr}}
 .modal-bg.open .modal{transform:translateY(0)}
-.modal .mimg{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--paper-2),#DBD7CC);min-height:220px;display:flex;align-items:center;justify-content:center}
-.modal .mimg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.modal .mimg .placeholder{font-family:'IBM Plex Mono',monospace;font-size:11px;color:#9C9685;text-transform:uppercase;text-align:center;padding:0 16px}
-.modal .mbody{padding:28px 24px;display:flex;flex-direction:column}
+
+/* Galeria do modal */
+.modal .mgal{display:flex;flex-direction:column;background:var(--paper-2);border-bottom:1.5px solid var(--ink)}
+@media(min-width:560px){.modal .mgal{border-bottom:none;border-right:1.5px solid var(--ink)}}
+.modal .mgal-main{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--paper-2),#DBD7CC);aspect-ratio:4/3;display:flex;align-items:center;justify-content:center}
+.modal .mgal-main img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .2s}
+.modal .mgal-main img.fade{opacity:0}
+.modal .mgal-main .placeholder{font-family:'IBM Plex Mono',monospace;font-size:11px;color:#9C9685;text-transform:uppercase;text-align:center;padding:0 16px}
+
+/* Setas de navegação no modal */
+.modal .mgal-nav{position:absolute;inset:0;display:flex;align-items:center;justify-content:space-between;padding:8px;pointer-events:none;z-index:3}
+.modal .mnarr{width:32px;height:32px;background:rgba(23,21,15,.55);border:none;color:var(--white);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;pointer-events:all}
+.modal .mnarr:hover{background:var(--signal);color:var(--ink)}
+
+/* Miniaturas do modal */
+.modal .mthumbs{display:flex;gap:5px;padding:8px;background:var(--paper-2);border-top:1px solid var(--line);flex-wrap:wrap}
+.modal .mthumb{width:52px;height:52px;object-fit:cover;cursor:pointer;opacity:.5;border:2px solid transparent;transition:opacity .15s,border-color .15s;flex-shrink:0}
+.modal .mthumb.active{opacity:1;border-color:var(--signal-deep)}
+.modal .mthumb:hover{opacity:.8}
+
+.modal .mbody{padding:26px 22px;display:flex;flex-direction:column}
 .modal .mloja{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;color:var(--ink-soft);text-transform:uppercase;margin-bottom:10px}
 .modal h2{font-family:'Archivo',sans-serif;font-weight:800;font-size:22px;line-height:1.1;letter-spacing:-.01em;margin-bottom:12px}
 .modal .mdesc{font-size:15px;color:var(--ink-soft);margin-bottom:20px;flex:1;line-height:1.6}
-.modal .mcupom{display:inline-flex;align-items:center;gap:8px;background:rgba(242,183,5,.1);border:1.5px solid var(--signal);color:var(--signal-deep);font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.1em;padding:8px 14px;margin-bottom:18px;text-transform:uppercase;width:fit-content}
-.modal .mcupom-label{font-size:10px;font-weight:400;opacity:.8}
+.modal .mcupom{display:inline-flex;align-items:center;gap:8px;background:rgba(242,183,5,.1);border:1.5px solid var(--signal);color:var(--signal-deep);font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:700;letter-spacing:.1em;padding:8px 14px;margin-bottom:18px;text-transform:uppercase;width:fit-content}
+.modal .mcupom small{font-size:10px;font-weight:400;opacity:.7}
 .modal .mbtn{display:flex;align-items:center;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;background:var(--signal);color:var(--ink);border:1.5px solid var(--signal);padding:13px 20px;border-radius:var(--r);transition:transform .12s,background .15s;margin-top:auto;width:fit-content}
 .modal .mbtn:hover{background:var(--signal-deep);transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--ink)}
-.modal-close{position:absolute;top:12px;right:12px;width:36px;height:36px;background:var(--white);border:1.5px solid var(--ink);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2;line-height:1}
+.modal-close{position:absolute;top:12px;right:12px;width:34px;height:34px;background:var(--white);border:1.5px solid var(--ink);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;line-height:1}
 .modal-close:hover{background:var(--ink);color:var(--white)}
 
 .empty{padding:80px 0;text-align:center;color:var(--ink-soft)}
@@ -180,13 +201,23 @@ footer a.ig:hover{text-decoration:underline}
 <div class="modal-bg" id="modalBg" role="dialog" aria-modal="true">
   <div class="modal" id="modal">
     <button class="modal-close" id="modalClose" aria-label="Fechar">&#x2715;</button>
-    <div class="mimg" id="mimg"></div>
+    <div class="mgal" id="mgal">
+      <div class="mgal-main" id="mgalMain">
+        <div class="mgal-nav">
+          <button class="mnarr" id="mPrev">&#8592;</button>
+          <button class="mnarr" id="mNext">&#8594;</button>
+        </div>
+        <span class="placeholder" id="mgalPlaceholder">[ sem foto ]</span>
+        <img id="mgalImg" src="" alt="" style="display:none">
+      </div>
+      <div class="mthumbs" id="mthumbs" style="display:none"></div>
+    </div>
     <div class="mbody">
       <div class="mloja" id="mloja"></div>
       <h2 id="mnome"></h2>
       <p class="mdesc" id="mdesc"></p>
       <div id="mcupom"></div>
-      <a class="mbtn" id="mbtn" target="_blank" rel="nofollow sponsored noopener">
+      <a class="mbtn" id="mbtn" target="_blank" rel="nofollow sponsored noopener" hidden>
         Ver na loja <span class="arr">→</span>
       </a>
     </div>
@@ -205,29 +236,55 @@ footer a.ig:hover{text-decoration:underline}
 </footer>
 
 <script>
-const REL = 'nofollow sponsored noopener';
+const REL='nofollow sponsored noopener';
 function slug(s){return(s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/(^-|-$)/g,"")}
 function esc(s){return(s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
 
-/* ---- SLIDER ---- */
-let cur=0, total=0, timer=null;
+/* ---- Troca de foto com fade ---- */
+function switchImg(imgEl, src){
+  imgEl.classList.add('fade');
+  setTimeout(()=>{imgEl.src=src;imgEl.classList.remove('fade')},180);
+}
+
+/* ---- MINIATURAS DO CARD ---- */
+function buildCardThumbs(wrap, mainImg, imagens){
+  if(!imagens||imagens.length<2) return;
+  const bar=document.createElement('div');
+  bar.className='cthumbs';
+  imagens.forEach((src,i)=>{
+    const t=document.createElement('img');
+    t.className='cthumb'+(i===0?' active':'');
+    t.src=src; t.alt=''; t.loading='lazy';
+    t.addEventListener('click',e=>{
+      e.stopPropagation();
+      wrap.querySelectorAll('.cthumb').forEach(x=>x.classList.remove('active'));
+      t.classList.add('active');
+      switchImg(mainImg, src);
+    });
+    bar.appendChild(t);
+  });
+  wrap.appendChild(bar);
+}
+
+/* ---- SLIDER DE DESTAQUES ---- */
+let cur=0,total=0,timer=null;
 function goTo(i){
   cur=(i+total)%total;
-  document.getElementById("slides").style.transform=`translateX(-${cur*100}%)`;
-  document.querySelectorAll(".dot").forEach((d,j)=>d.classList.toggle("active",j===cur));
+  document.getElementById('slides').style.transform=`translateX(-${cur*100}%)`;
+  document.querySelectorAll('.dot').forEach((d,j)=>d.classList.toggle('active',j===cur));
 }
 function startAuto(){timer=setInterval(()=>goTo(cur+1),4000)}
 function stopAuto(){clearInterval(timer)}
 
 function buildSlider(destaques){
   if(!destaques.length)return;
-  document.getElementById("destaques").hidden=false;
+  document.getElementById('destaques').hidden=false;
   total=destaques.length;
-  const slidesEl=document.getElementById("slides");
-  const dotsEl=document.getElementById("dots");
+  const slidesEl=document.getElementById('slides');
+  const dotsEl=document.getElementById('dots');
   slidesEl.innerHTML=destaques.map(p=>{
-    const img=p.imagem?`<img src="${esc(p.imagem)}" alt="${esc(p.nome)}" loading="lazy">`:`<span class="stag">[ sem foto ]</span>`;
-    const cup=p.cupom?`<div class="scupom"><span class="mcupom-label">Cupom</span>${esc(p.cupom)}</div>`:"";
+    const img=p.imagem?`<img src="${esc(p.imagem)}" alt="${esc(p.nome)}" loading="lazy">`:'<span class="stag">[ sem foto ]</span>';
+    const cup=p.cupom?`<div class="scupom"><small>Cupom</small> ${esc(p.cupom)}</div>`:'';
     return `<article class="slide">
       <div class="simg">${img}</div>
       <div class="sbody">
@@ -237,57 +294,125 @@ function buildSlider(destaques){
         ${cup}
         <a class="btn" href="${esc(p.link)}" target="_blank" rel="${REL}">Ver na loja <span class="arr">→</span></a>
       </div></article>`;
-  }).join("");
-  dotsEl.innerHTML=destaques.map((_,i)=>`<button class="dot${i===0?' active':''}" aria-label="Slide ${i+1}"></button>`).join("");
-  dotsEl.querySelectorAll(".dot").forEach((d,i)=>d.addEventListener("click",()=>{stopAuto();goTo(i);startAuto()}));
-  document.getElementById("prev").addEventListener("click",()=>{stopAuto();goTo(cur-1);startAuto()});
-  document.getElementById("next").addEventListener("click",()=>{stopAuto();goTo(cur+1);startAuto()});
+  }).join('');
+  dotsEl.innerHTML=destaques.map((_,i)=>`<button class="dot${i===0?' active':''}" aria-label="Slide ${i+1}"></button>`).join('');
+  dotsEl.querySelectorAll('.dot').forEach((d,i)=>d.addEventListener('click',()=>{stopAuto();goTo(i);startAuto()}));
+  document.getElementById('prev').addEventListener('click',()=>{stopAuto();goTo(cur-1);startAuto()});
+  document.getElementById('next').addEventListener('click',()=>{stopAuto();goTo(cur+1);startAuto()});
   if(total>1)startAuto();
 }
 
-/* ---- MODAL ---- */
+/* ---- MODAL com galeria ---- */
+let mImagens=[], mCur=0;
+
+function setModalImg(i){
+  mCur=(i+mImagens.length)%mImagens.length;
+  const imgEl=document.getElementById('mgalImg');
+  const ph=document.getElementById('mgalPlaceholder');
+  if(mImagens.length){
+    imgEl.style.display='block'; ph.style.display='none';
+    switchImg(imgEl, mImagens[mCur]);
+  } else {
+    imgEl.style.display='none'; ph.style.display='block';
+  }
+  document.querySelectorAll('.mthumb').forEach((t,j)=>t.classList.toggle('active',j===mCur));
+}
+
 function openModal(p){
-  const bg=document.getElementById("modalBg");
-  document.getElementById("mnome").textContent=p.nome;
-  document.getElementById("mloja").textContent=p.loja||"";
-  document.getElementById("mdesc").textContent=p.descricao||"Produto curado pelo arq.semfiltro.";
-  const mimg=document.getElementById("mimg");
-  mimg.innerHTML=p.imagem?`<img src="${esc(p.imagem)}" alt="${esc(p.nome)}" loading="lazy">`:`<span class="placeholder">[ sem foto ]</span>`;
-  const mc=document.getElementById("mcupom");
-  mc.innerHTML=p.cupom?`<div class="mcupom"><span class="mcupom-label">Cupom</span>&nbsp;${esc(p.cupom)}</div>`:"";
-  const mbtn=document.getElementById("mbtn");
+  mImagens = p.imagens && p.imagens.length ? p.imagens : (p.imagem ? [p.imagem] : []);
+  mCur=0;
+
+  document.getElementById('mnome').textContent=p.nome;
+  document.getElementById('mloja').textContent=p.loja||'';
+  document.getElementById('mdesc').textContent=p.descricao||'';
+
+  // cupom
+  const mc=document.getElementById('mcupom');
+  mc.innerHTML=p.cupom?`<div class="mcupom"><small>Cupom</small> ${esc(p.cupom)}</div>`:'';
+
+  // botão
+  const mbtn=document.getElementById('mbtn');
   if(p.link){mbtn.href=p.link;mbtn.hidden=false}else{mbtn.hidden=true}
-  bg.classList.add("open");
-  document.body.style.overflow="hidden";
+
+  // galeria principal
+  const imgEl=document.getElementById('mgalImg');
+  const ph=document.getElementById('mgalPlaceholder');
+  if(mImagens.length){
+    imgEl.src=mImagens[0]; imgEl.alt=p.nome;
+    imgEl.style.display='block'; ph.style.display='none';
+  } else {
+    imgEl.style.display='none'; ph.style.display='block';
+  }
+
+  // miniaturas do modal — só se tiver 2+
+  const tb=document.getElementById('mthumbs');
+  if(mImagens.length>1){
+    tb.style.display='flex';
+    tb.innerHTML=mImagens.map((src,i)=>
+      `<img class="mthumb${i===0?' active':''}" src="${esc(src)}" alt="Foto ${i+1}" loading="lazy">`
+    ).join('');
+    tb.querySelectorAll('.mthumb').forEach((t,i)=>t.addEventListener('click',()=>setModalImg(i)));
+  } else {
+    tb.style.display='none'; tb.innerHTML='';
+  }
+
+  // setas — só se tiver 2+
+  const nav=document.querySelector('.mgal-nav');
+  nav.style.display=mImagens.length>1?'flex':'none';
+
+  document.getElementById('modalBg').classList.add('open');
+  document.body.style.overflow='hidden';
 }
+
 function closeModal(){
-  document.getElementById("modalBg").classList.remove("open");
-  document.body.style.overflow="";
+  document.getElementById('modalBg').classList.remove('open');
+  document.body.style.overflow='';
 }
-document.getElementById("modalClose").addEventListener("click",closeModal);
-document.getElementById("modalBg").addEventListener("click",e=>{if(e.target===e.currentTarget)closeModal()});
-document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal()});
+
+document.getElementById('modalClose').addEventListener('click',closeModal);
+document.getElementById('modalBg').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal()});
+document.getElementById('mPrev').addEventListener('click',()=>setModalImg(mCur-1));
+document.getElementById('mNext').addEventListener('click',()=>setModalImg(mCur+1));
+document.addEventListener('keydown',e=>{
+  if(!document.getElementById('modalBg').classList.contains('open'))return;
+  if(e.key==='Escape')closeModal();
+  if(e.key==='ArrowLeft')setModalImg(mCur-1);
+  if(e.key==='ArrowRight')setModalImg(mCur+1);
+});
 
 /* ---- CARDS ---- */
-function cardHTML(p){
-  const cup=p.cupom?`<span class="badge-cupom">${esc(p.cupom)}</span>`:"";
-  const img=p.imagem?`<img src="${esc(p.imagem)}" alt="${esc(p.nome)}" loading="lazy">`:`<span class="placeholder">[ sem foto ]</span>`;
-  const loja=p.loja?`<span class="cloja">${esc(p.loja)}</span>`:"<span></span>";
-  const cbtn=p.link?`<a class="cbtn" href="${esc(p.link)}" target="_blank" rel="${REL}" onclick="event.stopPropagation()">Ver na loja <span class="arr">→</span></a>`:`<span class="cloja">Em breve</span>`;
-  return `<article class="card" tabindex="0" role="button" aria-label="${esc(p.nome)}">
-    <div class="cimg">${cup}${img}</div>
+function makeCard(p){
+  const el=document.createElement('article');
+  el.className='card'; el.tabIndex=0; el.setAttribute('role','button'); el.setAttribute('aria-label',p.nome);
+
+  const imagens=p.imagens&&p.imagens.length?p.imagens:(p.imagem?[p.imagem]:[]);
+  const cup=p.cupom?`<span class="badge-cupom">${esc(p.cupom)}</span>`:'';
+  const loja=p.loja?`<span class="cloja">${esc(p.loja)}</span>`:'<span></span>';
+  const cbtn=p.link
+    ?`<a class="cbtn" href="${esc(p.link)}" target="_blank" rel="${REL}" onclick="event.stopPropagation()">Ver na loja <span class="arr">→</span></a>`
+    :`<span class="cloja">Em breve</span>`;
+
+  const mainSrc=imagens[0]||'';
+  const imgTag=mainSrc?`<img id="" src="${esc(mainSrc)}" alt="${esc(p.nome)}" loading="lazy">`
+                       :`<span class="placeholder">[ sem foto ]</span>`;
+
+  el.innerHTML=`
+    <div class="cimg-wrap">
+      <div class="cimg-main">${cup}${imgTag}</div>
+    </div>
     <div class="cbody">
       <h3>${esc(p.nome)}</h3>
       <p class="cdesc">${esc(p.descricao)}</p>
       <div class="cfoot">${loja}${cbtn}</div>
-    </div></article>`;
-}
+    </div>`;
 
-function attachCardEvents(grid,produtos){
-  grid.querySelectorAll(".card").forEach((el,i)=>{
-    el.addEventListener("click",()=>openModal(produtos[i]));
-    el.addEventListener("keydown",e=>{if(e.key==="Enter")openModal(produtos[i])});
-  });
+  // miniaturas no card (só se 2+ fotos)
+  const mainImgEl=el.querySelector('.cimg-main img');
+  if(mainImgEl) buildCardThumbs(el.querySelector('.cimg-wrap'), mainImgEl, imagens);
+
+  el.addEventListener('click',()=>openModal(p));
+  el.addEventListener('keydown',e=>{if(e.key==='Enter')openModal(p)});
+  return el;
 }
 
 /* ---- RENDER ---- */
@@ -295,37 +420,35 @@ function render(data){
   const cats=data.categorias||[];
   const prod=data.produtos||[];
 
-  // nav
-  document.getElementById("catnav").innerHTML=cats.map((c,i)=>
-    `<a href="#${slug(c)}"><b>A-${String(i+1).padStart(2,"0")}</b>${esc(c)}</a>`).join("");
+  document.getElementById('catnav').innerHTML=cats.map((c,i)=>
+    `<a href="#${slug(c)}"><b>A-${String(i+1).padStart(2,'0')}</b>${esc(c)}</a>`).join('');
 
-  // slider de destaques
   buildSlider(prod.filter(p=>p.destaque));
 
-  // catálogo
-  const catEl=document.getElementById("catalog");
+  const catEl=document.getElementById('catalog');
   if(!prod.length){
-    catEl.innerHTML=`<div class="empty"><div class="mono">Catálogo vazio</div>Nenhum produto publicado ainda. Marque itens como "Publicado" no Notion e atualize o site.</div>`;
+    catEl.innerHTML=`<div class="empty"><div class="mono">Catálogo vazio</div>Marque itens como "Publicado" no Notion e atualize o site.</div>`;
     return;
   }
-  catEl.innerHTML=cats.map((c,i)=>{
-    const itens=prod.filter(p=>p.categoria===c);
-    if(!itens.length)return"";
-    return `<section class="catsec" id="${slug(c)}">
-      <div class="section-head"><span class="sheet">A-${String(i+1).padStart(2,"0")}</span><h2>${esc(c)}</h2><span class="rule"></span></div>
-      <div class="grid" data-cat="${i}">${itens.map(cardHTML).join("")}</div></section>`;
-  }).join("");
 
-  // eventos dos cards por categoria
+  catEl.innerHTML='';
   cats.forEach((c,i)=>{
-    const grid=document.querySelector(`.grid[data-cat="${i}"]`);
-    if(grid)attachCardEvents(grid,prod.filter(p=>p.categoria===c));
+    const itens=prod.filter(p=>p.categoria===c);
+    if(!itens.length)return;
+    const sec=document.createElement('section');
+    sec.className='catsec'; sec.id=slug(c);
+    sec.innerHTML=`<div class="section-head"><span class="sheet">A-${String(i+1).padStart(2,'0')}</span><h2>${esc(c)}</h2><span class="rule"></span></div>`;
+    const grid=document.createElement('div');
+    grid.className='grid';
+    itens.forEach(p=>grid.appendChild(makeCard(p)));
+    sec.appendChild(grid);
+    catEl.appendChild(sec);
   });
 }
 
-fetch("products.json?v="+Date.now())
+fetch('products.json?v='+Date.now())
   .then(r=>r.json()).then(render)
-  .catch(()=>{document.getElementById("catalog").innerHTML=
+  .catch(()=>{document.getElementById('catalog').innerHTML=
     `<div class="empty"><div class="mono">Erro ao carregar</div>Não foi possível ler products.json.</div>`});
 </script>
 </body>
