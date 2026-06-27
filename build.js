@@ -41,10 +41,17 @@ function readProps(props) {
   const catRels   = p(COL.categoria)?.relation || [];
   const loja      = p(COL.loja)?.select;
   const status    = p(COL.status)?.status;
-  // Link: tenta url primeiro, depois rich_text (fallback para Notion que não salvou como URL)
-  const linkProp  = p(COL.link);
-  const linkRaw   = linkProp?.url || (linkProp?.rich_text ? txt(linkProp.rich_text) : "") || "";
-  const link      = cleanUrl(linkRaw);
+  // Link: tenta a coluna "Link" exata; se vazia, procura QUALQUER propriedade URL preenchida
+  // (à prova de nome de coluna diferente / maiúscula / acento)
+  let linkRaw = p(COL.link)?.url || (p(COL.link)?.rich_text ? txt(p(COL.link).rich_text) : "") || "";
+  if (!linkRaw) {
+    for (const [propName, prop] of Object.entries(props)) {
+      // ignora a coluna "Link Original" (link cru da loja, não afiliado)
+      if (/original/i.test(propName)) continue;
+      if (prop?.type === "url" && prop.url) { linkRaw = prop.url; break; }
+    }
+  }
+  const link = cleanUrl(linkRaw);
   const cupom     = p(COL.cupom)?.rich_text;
   const desc      = p(COL.descricao)?.rich_text;
   const destaque  = p(COL.destaque)?.checkbox;
