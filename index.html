@@ -97,7 +97,7 @@ body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);-we
 .cupons-rail::-webkit-scrollbar-track{background:var(--paper-2)}
 
 /* TICKET DE CINEMA — amarelo, horizontal, com rasgo visível */
-.ticket{flex:0 0 auto;width:380px;scroll-snap-align:start;cursor:pointer;display:flex;align-items:stretch;background:var(--signal);border:2px solid var(--ink);position:relative;filter:drop-shadow(0 4px 10px rgba(23,21,15,.18));transition:transform .15s,filter .15s}
+.ticket{flex:0 0 auto;width:410px;scroll-snap-align:start;cursor:pointer;display:flex;align-items:stretch;background:var(--signal);border:2px solid var(--ink);position:relative;filter:drop-shadow(0 4px 10px rgba(23,21,15,.18));transition:transform .15s,filter .15s}
 .ticket:hover{transform:translateY(-3px);filter:drop-shadow(0 8px 18px rgba(23,21,15,.28))}
 
 /* corpo principal (foto + nome) */
@@ -118,12 +118,14 @@ body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);-we
 .ticket-notch-bottom{position:absolute;bottom:-2px;left:50%;transform:translate(-50%,50%);width:14px;height:14px;background:var(--paper);border:2px solid var(--ink);border-radius:50%;z-index:2}
 
 /* canhoto com o cupom */
-.ticket-stub{flex:0 0 96px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;padding:10px 7px}
+.ticket-stub{flex:0 0 118px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;padding:12px 8px}
 .ticket-stub-label{font-family:'IBM Plex Mono',monospace;font-size:7px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
-.ticket-stub-code{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--ink);text-align:center;word-break:break-all;line-height:1.2}
-.ticket-copy{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:var(--ink);color:var(--signal);border:none;padding:6px 8px;cursor:pointer;transition:opacity .15s;width:100%}
+.ticket-stub-code{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.02em;color:var(--ink);text-align:center;line-height:1.15;width:100%;overflow-wrap:anywhere}
+.ticket-copy{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:var(--ink);color:var(--signal);border:none;padding:7px 8px;cursor:pointer;transition:opacity .15s;width:100%}
 .ticket-copy:hover{opacity:.85}
 .ticket-copy.copied{background:var(--green);color:#fff}
+.ticket-loja-btn{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:transparent;color:var(--ink);border:1.5px solid var(--ink);padding:6px 8px;cursor:pointer;transition:background .15s,color .15s;width:100%;text-align:center;text-decoration:none;display:block}
+.ticket-loja-btn:hover{background:var(--ink);color:var(--signal)}
 
 /* CATÁLOGO */
 .catsec{padding:52px 0 8px;scroll-margin-top:130px}
@@ -386,8 +388,11 @@ function buildCupons(items){
         <div class="ticket-stub-label">Cupom</div>
         <div class="ticket-stub-code">${esc(p.cupom)}</div>
         <button class="ticket-copy">Copiar</button>
+        ${isUrl(p.link)?`<a class="ticket-loja-btn" href="${esc(p.link)}" target="_blank" rel="${REL}">Ver na loja →</a>`:''}
       </div>`;
     el.querySelector('.ticket-copy').addEventListener('click',e=>{e.stopPropagation();copyText(p.cupom,e.currentTarget)});
+    const lojaBtn=el.querySelector('.ticket-loja-btn');
+    if(lojaBtn)lojaBtn.addEventListener('click',e=>e.stopPropagation());
     el.addEventListener('click',()=>openModal(p));
     rail.appendChild(el);
   });
