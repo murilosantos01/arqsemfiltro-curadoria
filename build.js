@@ -35,7 +35,10 @@ function readProps(props) {
   const catRels   = p(COL.categoria)?.relation || [];
   const loja      = p(COL.loja)?.select;
   const status    = p(COL.status)?.status;
-  const link      = cleanUrl(p(COL.link)?.url);
+  // Link: tenta url primeiro, depois rich_text (fallback para Notion que não salvou como URL)
+  const linkProp  = p(COL.link);
+  const linkRaw   = linkProp?.url || (linkProp?.rich_text ? txt(linkProp.rich_text) : "") || "";
+  const link      = cleanUrl(linkRaw);
   const cupom     = p(COL.cupom)?.rich_text;
   const desc      = p(COL.descricao)?.rich_text;
   const destaque  = p(COL.destaque)?.checkbox;

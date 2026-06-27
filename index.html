@@ -12,7 +12,7 @@
 :root{
   --ink:#17150F;--ink-soft:#3D392F;--paper:#F1EFE9;--paper-2:#E7E4DB;
   --line:#C9C4B6;--signal:#F2B705;--signal-deep:#D89B00;--white:#FCFBF7;
-  --green:#1A7A4A;--green-light:#E8F5EE;--r:2px;
+  --green:#1A7A4A;--green-bg:#E8F5EE;--r:2px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -47,6 +47,8 @@ body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);-we
 .catnav a:first-child{border-left:1px solid var(--line)}
 .catnav a:hover,.catnav a.active{background:var(--signal);color:var(--ink)}
 .catnav a b{color:var(--ink);margin-right:8px}
+.catnav a.cupons-link{color:var(--green);font-weight:700}
+.catnav a.cupons-link:hover{background:var(--green);color:#fff}
 
 /* SECTION HEAD */
 .section-head{display:flex;align-items:baseline;gap:16px;margin-bottom:24px}
@@ -55,12 +57,12 @@ body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);-we
 .section-head .rule{flex:1;height:1.5px;background:var(--ink);align-self:center}
 
 /* BOTÃO */
-.btn{display:inline-flex;align-items:center;gap:10px;align-self:flex-start;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;background:var(--signal);color:var(--ink);border:1.5px solid var(--signal);padding:12px 20px;border-radius:var(--r);transition:transform .12s,background .15s;cursor:pointer}
+.btn{display:inline-flex;align-items:center;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;background:var(--signal);color:var(--ink);border:1.5px solid var(--signal);padding:12px 20px;border-radius:var(--r);transition:transform .12s,background .15s;cursor:pointer}
 .btn:hover{background:var(--signal-deep);border-color:var(--signal-deep);transform:translate(-2px,-2px);box-shadow:4px 4px 0 rgba(255,255,255,.15)}
 .btn .arr{transition:transform .15s}
 .btn:hover .arr{transform:translateX(3px)}
 
-/* SLIDER DESTAQUES */
+/* SLIDER */
 .featured{padding:48px 0 8px}
 .slider{position:relative;border:1.5px solid var(--ink);overflow:hidden;background:var(--ink)}
 .slides{display:flex;transition:transform .5s cubic-bezier(.4,0,.2,1)}
@@ -83,20 +85,65 @@ body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);-we
 .sarr{width:36px;height:36px;border:1px solid rgba(255,255,255,.2);background:transparent;color:var(--white);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:background .15s}
 .sarr:hover{background:var(--signal);border-color:var(--signal);color:var(--ink)}
 
-/* SEÇÃO CUPONS */
+/* ===== SEÇÃO CUPONS — ESTILO TICKET ===== */
 .cupons-sec{padding:52px 0 8px;scroll-margin-top:130px}
-.cupons-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:0;border:1.5px solid var(--ink);background:var(--ink)}
-.cupom-card{background:var(--signal);border-right:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);padding:22px 20px;display:flex;flex-direction:column;gap:10px;cursor:pointer;transition:background .15s;position:relative}
-.cupom-card:hover{background:var(--signal-deep)}
-.cupom-card .cc-loja{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
-.cupom-card h3{font-family:'Archivo',sans-serif;font-weight:800;font-size:17px;line-height:1.15;letter-spacing:-.01em;color:var(--ink)}
-.cupom-card .cc-desc{font-size:13px;color:var(--ink-soft);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.cupom-card .cc-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:auto;padding-top:12px;border-top:1.5px solid rgba(23,21,15,.15)}
-.cupom-card .cc-code{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--ink);display:flex;align-items:center;gap:8px}
-.cupom-card .cc-copy{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;background:var(--ink);color:var(--signal);border:none;padding:5px 10px;cursor:pointer;transition:opacity .15s}
-.cupom-card .cc-copy:hover{opacity:.8}
-.cupom-card .cc-copy.copied{background:var(--green);color:#fff}
-.cupom-card .cc-desconto{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;color:var(--green);background:var(--green-light);padding:3px 8px;border-radius:20px}
+.cupons-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px}
+
+.ticket{
+  position:relative;background:var(--white);cursor:pointer;
+  /* recorte de ticket nos lados */
+  border:1.5px solid var(--ink);
+  transition:transform .15s,box-shadow .15s;
+}
+.ticket:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(23,21,15,.12)}
+
+/* os "furinhos" do ticket — pseudo-elementos circulares nos lados */
+.ticket::before,.ticket::after{
+  content:"";position:absolute;top:50%;width:18px;height:18px;
+  background:var(--paper);border:1.5px solid var(--ink);border-radius:50%;
+  transform:translateY(-50%);z-index:2;
+}
+.ticket::before{left:-10px}
+.ticket::after{right:-10px}
+
+/* linha tracejada no meio do ticket */
+.ticket-dash{
+  border-top:2px dashed var(--line);
+  margin:0 14px;position:relative;z-index:1;
+}
+
+/* foto wide no topo do ticket */
+.ticket-img{
+  height:140px;overflow:hidden;position:relative;
+  background:linear-gradient(135deg,var(--paper-2),#D5D1C8);
+  display:flex;align-items:center;justify-content:center;
+  border-bottom:1.5px dashed var(--line);
+}
+.ticket-img img{width:100%;height:100%;object-fit:cover}
+.ticket-img .ti-placeholder{font-family:'IBM Plex Mono',monospace;font-size:11px;color:#9C9685;text-transform:uppercase;letter-spacing:.08em}
+
+/* topo do ticket (sobre a foto) */
+.ticket-ribbon{
+  position:absolute;top:10px;left:12px;
+  font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;
+  background:var(--green);color:#fff;padding:3px 8px;
+}
+
+/* corpo do ticket */
+.ticket-body{padding:16px 16px 14px}
+.ticket-loja{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;color:var(--ink-soft);text-transform:uppercase;margin-bottom:6px}
+.ticket-nome{font-family:'Archivo',sans-serif;font-weight:700;font-size:16px;line-height:1.2;letter-spacing:-.01em;margin-bottom:8px}
+.ticket-desc{font-size:13px;color:var(--ink-soft);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:0}
+
+/* rodapé do ticket */
+.ticket-foot{padding:12px 16px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.ticket-code-wrap{display:flex;align-items:center;gap:8px}
+.ticket-code{font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:700;letter-spacing:.1em;color:var(--ink)}
+.ticket-desconto{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;color:#fff;background:var(--green);padding:2px 7px;border-radius:20px}
+.ticket-copy{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;background:var(--ink);color:var(--signal);border:none;padding:6px 12px;cursor:pointer;flex-shrink:0;transition:opacity .15s}
+.ticket-copy:hover{opacity:.8}
+.ticket-copy.copied{background:var(--green);color:#fff}
 
 /* CATÁLOGO */
 .catsec{padding:52px 0 8px;scroll-margin-top:130px}
@@ -111,11 +158,10 @@ body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);-we
 .card .cimg-main img.fade{opacity:0}
 .card .placeholder{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;color:#9C9685;text-transform:uppercase;text-align:center;padding:0 14px}
 
-/* badges no card */
-.card-badges{position:absolute;top:10px;left:10px;display:flex;flex-direction:column;gap:5px;z-index:3}
-.badge-cupom-img{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.06em;color:var(--ink);background:var(--signal);padding:3px 7px;text-transform:uppercase}
-.badge-desconto{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;color:#fff;background:var(--green);padding:3px 7px;border-radius:20px}
-.badge-custom{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.04em;color:var(--ink);background:#fff;border:1.5px solid var(--ink);padding:3px 7px}
+/* badges — apenas desconto + badge custom, SEM cupom na imagem */
+.card-badges{position:absolute;top:10px;left:10px;display:flex;gap:5px;z-index:3;flex-wrap:wrap;max-width:calc(100% - 20px)}
+.badge-desconto{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;color:#fff;background:var(--green);padding:3px 8px;border-radius:20px;white-space:nowrap}
+.badge-custom{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.03em;color:var(--ink);background:var(--white);border:1.5px solid var(--ink);padding:3px 8px;white-space:nowrap}
 
 /* miniaturas */
 .card .cthumbs{display:flex;gap:4px;padding:6px 8px;background:var(--paper-2);border-top:1px solid var(--line)}
@@ -153,21 +199,24 @@ body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);-we
 .modal .mthumb.active{opacity:1;border-color:var(--signal-deep)}
 .modal .mthumb:hover{opacity:.8}
 .modal .mbody{padding:26px 22px;display:flex;flex-direction:column}
-.modal .mloja{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;color:var(--ink-soft);text-transform:uppercase;margin-bottom:10px}
-.modal h2{font-family:'Archivo',sans-serif;font-weight:800;font-size:22px;line-height:1.1;letter-spacing:-.01em;margin-bottom:12px}
-.modal .mdesc{font-size:15px;color:var(--ink-soft);margin-bottom:16px;flex:1;line-height:1.6}
-/* badges no modal */
-.modal .mbadges{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
-.modal .mbadge-desconto{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:700;color:#fff;background:var(--green);padding:4px 10px;border-radius:20px}
-.modal .mbadge-custom{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;color:var(--ink);background:var(--signal);padding:4px 10px}
+.modal .mloja{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;color:var(--ink-soft);text-transform:uppercase;margin-bottom:8px}
+.modal h2{font-family:'Archivo',sans-serif;font-weight:800;font-size:22px;line-height:1.1;letter-spacing:-.01em;margin-bottom:10px}
+.modal .mdesc{font-size:15px;color:var(--ink-soft);margin-bottom:14px;line-height:1.6}
+
+/* badges no modal — sem fundo amarelo, só texto */
+.modal .mbadges{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;align-items:center}
+.modal .mb-desconto{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:700;color:#fff;background:var(--green);padding:4px 10px;border-radius:20px}
+.modal .mb-custom{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;color:var(--ink-soft);letter-spacing:.04em}
+
 /* cupom no modal */
-.modal .mcupom-wrap{background:rgba(242,183,5,.08);border:1.5px solid var(--signal);padding:14px 16px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.modal .mcupom-code{font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:700;letter-spacing:.12em;color:var(--ink)}
-.modal .mcupom-label{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink-soft);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
-.modal .mcopy-btn{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;background:var(--ink);color:var(--signal);border:none;padding:8px 14px;cursor:pointer;transition:background .15s;white-space:nowrap;flex-shrink:0}
+.modal .mcupom-wrap{background:rgba(242,183,5,.06);border:1.5px solid var(--signal);padding:14px 16px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.modal .mcupom-inner{display:flex;flex-direction:column;gap:2px}
+.modal .mcupom-label{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink-soft);letter-spacing:.08em;text-transform:uppercase}
+.modal .mcupom-code{font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:700;letter-spacing:.12em;color:var(--ink)}
+.modal .mcopy-btn{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;background:var(--ink);color:var(--signal);border:none;padding:8px 14px;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:background .15s}
 .modal .mcopy-btn:hover{background:var(--ink-soft)}
 .modal .mcopy-btn.copied{background:var(--green);color:#fff}
-.modal .mbtn{display:flex;align-items:center;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;background:var(--signal);color:var(--ink);border:1.5px solid var(--signal);padding:13px 20px;border-radius:var(--r);transition:transform .12s,background .15s;margin-top:auto;width:fit-content}
+.modal .mbtn{display:flex;align-items:center;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;background:var(--signal);color:var(--ink);border:1.5px solid var(--signal);padding:13px 20px;border-radius:var(--r);transition:transform .12s,background .15s;width:fit-content}
 .modal .mbtn:hover{background:var(--signal-deep);transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--ink)}
 .modal-close{position:absolute;top:12px;right:12px;width:34px;height:34px;background:var(--white);border:1.5px solid var(--ink);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10}
 .modal-close:hover{background:var(--ink);color:var(--white)}
@@ -207,7 +256,6 @@ footer a.ig:hover{text-decoration:underline}
 <nav class="catnav" aria-label="Categorias"><div class="wrap" id="catnav"></div></nav>
 
 <main class="wrap">
-  <!-- DESTAQUES -->
   <section class="featured" id="destaques" hidden>
     <div class="section-head"><span class="sheet">A-00</span><h2>Destaques</h2><span class="rule"></span></div>
     <div class="slider" id="slider">
@@ -222,13 +270,15 @@ footer a.ig:hover{text-decoration:underline}
     </div>
   </section>
 
-  <!-- CUPONS -->
   <section class="cupons-sec" id="cupons" hidden>
-    <div class="section-head"><span class="sheet" style="color:var(--green)">C-00</span><h2>Cupons</h2><span class="rule"></span></div>
+    <div class="section-head">
+      <span class="sheet" style="color:var(--green)">C-00</span>
+      <h2>Cupons</h2>
+      <span class="rule"></span>
+    </div>
     <div class="cupons-grid" id="cupons-grid"></div>
   </section>
 
-  <!-- CATÁLOGO POR CATEGORIA -->
   <div id="catalog"></div>
 </main>
 
@@ -275,181 +325,148 @@ footer a.ig:hover{text-decoration:underline}
 const REL='nofollow sponsored noopener';
 function slug(s){return(s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/(^-|-$)/g,"")}
 function esc(s){return(s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+const isUrl=s=>s&&s.startsWith('http');
+const safeDesc=s=>(s&&!s.startsWith('http'))?s:'';
 
-/* ---- Copiar texto ---- */
-function copyText(text, btn) {
-  navigator.clipboard.writeText(text).then(()=>{
-    const orig=btn.textContent;
-    btn.textContent='Copiado!';
-    btn.classList.add('copied');
-    setTimeout(()=>{btn.textContent=orig;btn.classList.remove('copied')},2000);
-  }).catch(()=>{
-    // fallback
-    const ta=document.createElement('textarea');
-    ta.value=text; document.body.appendChild(ta); ta.select();
-    document.execCommand('copy'); document.body.removeChild(ta);
-    btn.textContent='Copiado!'; btn.classList.add('copied');
-    setTimeout(()=>{btn.textContent='Copiar';btn.classList.remove('copied')},2000);
+function copyText(text,btn){
+  const orig=btn.textContent;
+  const done=()=>{btn.textContent='Copiado!';btn.classList.add('copied');setTimeout(()=>{btn.textContent=orig;btn.classList.remove('copied')},2000)};
+  navigator.clipboard?.writeText(text).then(done).catch(()=>{
+    const t=document.createElement('textarea');t.value=text;document.body.appendChild(t);t.select();document.execCommand('copy');document.body.removeChild(t);done();
   });
 }
 
-/* ---- Fade de imagem ---- */
-function switchImg(imgEl,src){
-  imgEl.classList.add('fade');
-  setTimeout(()=>{imgEl.src=src;imgEl.classList.remove('fade')},180);
-}
+function switchImg(el,src){el.classList.add('fade');setTimeout(()=>{el.src=src;el.classList.remove('fade')},180)}
 
-/* ---- Miniaturas no card ---- */
-function buildCardThumbs(wrap,mainImg,imagens){
-  if(!imagens||imagens.length<2)return;
-  const bar=document.createElement('div');
-  bar.className='cthumbs';
-  imagens.forEach((src,i)=>{
-    const t=document.createElement('img');
-    t.className='cthumb'+(i===0?' active':'');
-    t.src=src;t.alt='';t.loading='lazy';
-    t.addEventListener('click',e=>{
-      e.stopPropagation();
-      wrap.querySelectorAll('.cthumb').forEach(x=>x.classList.remove('active'));
-      t.classList.add('active');
-      switchImg(mainImg,src);
-    });
+function buildCardThumbs(wrap,mainImg,imgs){
+  if(!imgs||imgs.length<2)return;
+  const bar=document.createElement('div');bar.className='cthumbs';
+  imgs.forEach((src,i)=>{
+    const t=document.createElement('img');t.className='cthumb'+(i===0?' active':'');t.src=src;t.alt='';t.loading='lazy';
+    t.addEventListener('click',e=>{e.stopPropagation();wrap.querySelectorAll('.cthumb').forEach(x=>x.classList.remove('active'));t.classList.add('active');switchImg(mainImg,src)});
     bar.appendChild(t);
   });
   wrap.appendChild(bar);
 }
 
-/* ---- Badges HTML ---- */
-function badgesHTML(p, inline=false){
-  const parts=[];
-  if(p.desconto) parts.push(`<span class="${inline?'badge-desconto':'mbadge-desconto'}">${esc(p.desconto)} OFF</span>`);
-  if(p.badge)    parts.push(`<span class="${inline?'badge-custom':'mbadge-custom'}">${esc(p.badge)}</span>`);
-  return parts.join('');
-}
-
-/* ---- SLIDER ---- */
+/* SLIDER */
 let cur=0,total=0,timer=null;
-function goTo(i){
-  cur=(i+total)%total;
-  document.getElementById('slides').style.transform=`translateX(-${cur*100}%)`;
-  document.querySelectorAll('.dot').forEach((d,j)=>d.classList.toggle('active',j===cur));
-}
+function goTo(i){cur=(i+total)%total;document.getElementById('slides').style.transform=`translateX(-${cur*100}%)`;document.querySelectorAll('.dot').forEach((d,j)=>d.classList.toggle('active',j===cur))}
 function startAuto(){timer=setInterval(()=>goTo(cur+1),4000)}
 function stopAuto(){clearInterval(timer)}
 
-function buildSlider(destaques){
-  if(!destaques.length)return;
+function buildSlider(items){
+  if(!items.length)return;
   document.getElementById('destaques').hidden=false;
-  total=destaques.length;
-  const slidesEl=document.getElementById('slides');
-  const dotsEl=document.getElementById('dots');
-  slidesEl.innerHTML=destaques.map(p=>{
+  total=items.length;
+  document.getElementById('slides').innerHTML=items.map(p=>{
     const img=p.imagem?`<img src="${esc(p.imagem)}" alt="${esc(p.nome)}" loading="lazy">`:'<span class="stag">[ sem foto ]</span>';
-    const desc=p.descricao&&!p.descricao.startsWith('http')?`<p class="sdesc">${esc(p.descricao)}</p>`:'';
+    const desc=safeDesc(p.descricao);
     const cup=p.cupom?`<div class="scupom"><small style="opacity:.7;font-size:10px">Cupom</small> ${esc(p.cupom)}</div>`:'';
     const loja=p.loja?`<div class="sloja">${esc(p.loja)}</div>`:'';
-    const linkOk=p.link&&p.link.startsWith('http');
-    return `<article class="slide">
-      <div class="simg">${img}</div>
-      <div class="sbody">
-        <div class="sribbon">Destaque</div>
-        ${loja}
-        <h3>${esc(p.nome)}</h3>
-        ${desc}${cup}
-        ${linkOk?`<a class="btn" href="${esc(p.link)}" target="_blank" rel="${REL}">Ver na loja <span class="arr">→</span></a>`:''}
-      </div></article>`;
+    return `<article class="slide"><div class="simg">${img}</div><div class="sbody">
+      <div class="sribbon">Destaque</div>${loja}
+      <h3>${esc(p.nome)}</h3>
+      ${desc?`<p class="sdesc">${esc(desc)}</p>`:''}${cup}
+      ${isUrl(p.link)?`<a class="btn" href="${esc(p.link)}" target="_blank" rel="${REL}">Ver na loja <span class="arr">→</span></a>`:''}
+    </div></article>`;
   }).join('');
-  dotsEl.innerHTML=destaques.map((_,i)=>`<button class="dot${i===0?' active':''}" aria-label="Slide ${i+1}"></button>`).join('');
-  dotsEl.querySelectorAll('.dot').forEach((d,i)=>d.addEventListener('click',()=>{stopAuto();goTo(i);startAuto()}));
+  document.getElementById('dots').innerHTML=items.map((_,i)=>`<button class="dot${i===0?' active':''}" aria-label="Slide ${i+1}"></button>`).join('');
+  document.getElementById('dots').querySelectorAll('.dot').forEach((d,i)=>d.addEventListener('click',()=>{stopAuto();goTo(i);startAuto()}));
   document.getElementById('prev').addEventListener('click',()=>{stopAuto();goTo(cur-1);startAuto()});
   document.getElementById('next').addEventListener('click',()=>{stopAuto();goTo(cur+1);startAuto()});
   if(total>1)startAuto();
 }
 
-/* ---- SEÇÃO CUPONS ---- */
-function buildCupons(comCupom){
-  if(!comCupom.length)return;
+/* CUPONS — TICKET */
+function buildCupons(items){
+  if(!items.length)return;
   document.getElementById('cupons').hidden=false;
   const grid=document.getElementById('cupons-grid');
   grid.innerHTML='';
-  comCupom.forEach(p=>{
-    const el=document.createElement('div');
-    el.className='cupom-card';
-    const desc=p.descricao&&!p.descricao.startsWith('http')?p.descricao:'';
-    const loja=p.loja?`<div class="cc-loja">${esc(p.loja)}</div>`:'';
-    const descTag=p.desconto?`<span class="cc-desconto">${esc(p.desconto)} OFF</span>`:'';
+  items.forEach(p=>{
+    const el=document.createElement('article');
+    el.className='ticket';
+    const img=p.imagem?`<img src="${esc(p.imagem)}" alt="${esc(p.nome)}" loading="lazy">`:'<span class="ti-placeholder">[ sem foto ]</span>';
+    const descText=safeDesc(p.descricao);
+    const descontoTag=p.desconto?`<span class="ticket-desconto">${esc(p.desconto)} OFF</span>`:'';
     el.innerHTML=`
-      ${loja}
-      <h3>${esc(p.nome)}</h3>
-      ${desc?`<p class="cc-desc">${esc(desc)}</p>`:''}
-      <div class="cc-foot">
-        <div class="cc-code">${esc(p.cupom)} ${descTag}</div>
-        <button class="cc-copy">Copiar</button>
+      <div class="ticket-img">
+        <div class="ticket-ribbon">Cupom</div>
+        ${img}
+      </div>
+      <div class="ticket-body">
+        ${p.loja?`<div class="ticket-loja">${esc(p.loja)}</div>`:''}
+        <div class="ticket-nome">${esc(p.nome)}</div>
+        ${descText?`<p class="ticket-desc">${esc(descText)}</p>`:''}
+      </div>
+      <div class="ticket-dash"></div>
+      <div class="ticket-foot">
+        <div class="ticket-code-wrap">
+          <span class="ticket-code">${esc(p.cupom)}</span>
+          ${descontoTag}
+        </div>
+        <button class="ticket-copy">Copiar</button>
       </div>`;
-    el.querySelector('.cc-copy').addEventListener('click',e=>{
-      e.stopPropagation();
-      copyText(p.cupom, e.currentTarget);
-    });
+    el.querySelector('.ticket-copy').addEventListener('click',e=>{e.stopPropagation();copyText(p.cupom,e.currentTarget)});
     el.addEventListener('click',()=>openModal(p));
     grid.appendChild(el);
   });
 }
 
-/* ---- MODAL ---- */
+/* MODAL */
 let mImagens=[],mCur=0;
 function setModalImg(i){
   mCur=(i+mImagens.length)%mImagens.length;
-  const imgEl=document.getElementById('mgalImg');
-  const ph=document.getElementById('mgalPlaceholder');
-  if(mImagens.length){imgEl.style.display='block';ph.style.display='none';switchImg(imgEl,mImagens[mCur]);}
-  else{imgEl.style.display='none';ph.style.display='block';}
+  const imgEl=document.getElementById('mgalImg'),ph=document.getElementById('mgalPlaceholder');
+  if(mImagens.length){imgEl.style.display='block';ph.style.display='none';switchImg(imgEl,mImagens[mCur])}
+  else{imgEl.style.display='none';ph.style.display='block'}
   document.querySelectorAll('.mthumb').forEach((t,j)=>t.classList.toggle('active',j===mCur));
 }
 
 function openModal(p){
-  mImagens=p.imagens&&p.imagens.length?p.imagens:(p.imagem?[p.imagem]:[]);
-  mCur=0;
+  mImagens=p.imagens&&p.imagens.length?p.imagens:(p.imagem?[p.imagem]:[]);mCur=0;
   document.getElementById('mnome').textContent=p.nome;
   document.getElementById('mloja').textContent=p.loja||'';
-  document.getElementById('mdesc').textContent=(p.descricao&&!p.descricao.startsWith('http'))?p.descricao:'';
+  document.getElementById('mdesc').textContent=safeDesc(p.descricao);
 
-  // badges
-  document.getElementById('mbadges').innerHTML=badgesHTML(p,false);
+  // badges limpos no modal
+  const ba=document.getElementById('mbadges');
+  const parts=[];
+  if(p.desconto) parts.push(`<span class="mb-desconto">${esc(p.desconto)} OFF</span>`);
+  if(p.badge)    parts.push(`<span class="mb-custom">${esc(p.badge)}</span>`);
+  ba.innerHTML=parts.join('');
+  ba.style.display=parts.length?'flex':'none';
 
   // cupom
   const ca=document.getElementById('mcupom-area');
   if(p.cupom){
     ca.innerHTML=`<div class="mcupom-wrap">
-      <div><div class="mcupom-label">Cupom de desconto</div><div class="mcupom-code">${esc(p.cupom)}</div></div>
+      <div class="mcupom-inner"><div class="mcupom-label">Cupom de desconto</div><div class="mcupom-code">${esc(p.cupom)}</div></div>
       <button class="mcopy-btn">Copiar código</button></div>`;
     ca.querySelector('.mcopy-btn').addEventListener('click',e=>copyText(p.cupom,e.currentTarget));
-  } else { ca.innerHTML=''; }
+  }else{ca.innerHTML=''}
 
-  // botão ver na loja
+  // link
   const mb=document.getElementById('mbtn');
-  const linkOk=p.link&&p.link.startsWith('http');
-  if(linkOk){mb.href=p.link;mb.hidden=false;}else{mb.hidden=true;}
+  if(isUrl(p.link)){mb.href=p.link;mb.hidden=false}else{mb.hidden=true}
 
   // galeria
-  const imgEl=document.getElementById('mgalImg');
-  const ph=document.getElementById('mgalPlaceholder');
-  if(mImagens.length){imgEl.src=mImagens[0];imgEl.alt=p.nome;imgEl.style.display='block';ph.style.display='none';}
-  else{imgEl.style.display='none';ph.style.display='block';}
+  const imgEl=document.getElementById('mgalImg'),ph=document.getElementById('mgalPlaceholder');
+  if(mImagens.length){imgEl.src=mImagens[0];imgEl.alt=p.nome;imgEl.style.display='block';ph.style.display='none'}
+  else{imgEl.style.display='none';ph.style.display='block'}
   const tb=document.getElementById('mthumbs');
   if(mImagens.length>1){
     tb.style.display='flex';
     tb.innerHTML=mImagens.map((src,i)=>`<img class="mthumb${i===0?' active':''}" src="${esc(src)}" alt="Foto ${i+1}" loading="lazy">`).join('');
     tb.querySelectorAll('.mthumb').forEach((t,i)=>t.addEventListener('click',()=>setModalImg(i)));
-  }else{tb.style.display='none';tb.innerHTML='';}
+  }else{tb.style.display='none';tb.innerHTML=''}
   document.querySelector('.mgal-nav').style.display=mImagens.length>1?'flex':'none';
   document.getElementById('modalBg').classList.add('open');
   document.body.style.overflow='hidden';
 }
 
-function closeModal(){
-  document.getElementById('modalBg').classList.remove('open');
-  document.body.style.overflow='';
-}
+function closeModal(){document.getElementById('modalBg').classList.remove('open');document.body.style.overflow=''}
 document.getElementById('modalClose').addEventListener('click',closeModal);
 document.getElementById('modalBg').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal()});
 document.getElementById('mPrev').addEventListener('click',()=>setModalImg(mCur-1));
@@ -461,69 +478,61 @@ document.addEventListener('keydown',e=>{
   if(e.key==='ArrowRight')setModalImg(mCur+1);
 });
 
-/* ---- CARDS ---- */
+/* CARDS */
 function makeCard(p){
   const el=document.createElement('article');
   el.className='card';el.tabIndex=0;el.setAttribute('role','button');el.setAttribute('aria-label',p.nome);
-  const imagens=p.imagens&&p.imagens.length?p.imagens:(p.imagem?[p.imagem]:[]);
-  const mainSrc=imagens[0]||'';
+  const imgs=p.imagens&&p.imagens.length?p.imagens:(p.imagem?[p.imagem]:[]);
+  const mainSrc=imgs[0]||'';
   const imgTag=mainSrc?`<img src="${esc(mainSrc)}" alt="${esc(p.nome)}" loading="lazy">`:`<span class="placeholder">[ sem foto ]</span>`;
-  const badges=badgesHTML(p,true);
-  const badgesBlock=badges?`<div class="card-badges">${badges}</div>`:'';
-  // badge de cupom separado (canto esquerdo)
-  const cupBadge=p.cupom?`<span class="badge-cupom-img">${esc(p.cupom)}</span>`:'';
+
+  // badges: só desconto e badge custom (cupom NÃO vai na imagem)
+  const bdParts=[];
+  if(p.desconto) bdParts.push(`<span class="badge-desconto">${esc(p.desconto)} OFF</span>`);
+  if(p.badge)    bdParts.push(`<span class="badge-custom">${esc(p.badge)}</span>`);
+  const badgesBlock=bdParts.length?`<div class="card-badges">${bdParts.join('')}</div>`:'';
+
   const loja=p.loja?`<span class="cloja">${esc(p.loja)}</span>`:'<span></span>';
-  const linkOk=p.link&&p.link.startsWith('http');
-  const cbtn=linkOk
+  const cbtn=isUrl(p.link)
     ?`<a class="cbtn" href="${esc(p.link)}" target="_blank" rel="${REL}" onclick="event.stopPropagation()">Ver na loja <span class="arr">→</span></a>`
     :`<span class="cloja">Em breve</span>`;
 
   el.innerHTML=`
     <div class="cimg-wrap">
-      <div class="cimg-main">
-        ${badgesBlock}
-        ${cupBadge?`<div style="position:absolute;top:${badges?'42px':'10px'};left:10px;z-index:3">${cupBadge}</div>`:''}
-        ${imgTag}
-      </div>
+      <div class="cimg-main">${badgesBlock}${imgTag}</div>
     </div>
     <div class="cbody">
       <h3>${esc(p.nome)}</h3>
-      <p class="cdesc">${esc(p.descricao&&!p.descricao.startsWith('http')?p.descricao:'')}</p>
+      <p class="cdesc">${esc(safeDesc(p.descricao))}</p>
       <div class="cfoot">${loja}${cbtn}</div>
     </div>`;
 
   const mainImgEl=el.querySelector('.cimg-main img');
-  if(mainImgEl) buildCardThumbs(el.querySelector('.cimg-wrap'),mainImgEl,imagens);
+  if(mainImgEl) buildCardThumbs(el.querySelector('.cimg-wrap'),mainImgEl,imgs);
   el.addEventListener('click',()=>openModal(p));
   el.addEventListener('keydown',e=>{if(e.key==='Enter')openModal(p)});
   return el;
 }
 
-/* ---- RENDER ---- */
+/* RENDER */
 function render(data){
-  const cats=data.categorias||[];
-  const prod=data.produtos||[];
-
-  // catnav — inclui link pro cupons se existir
+  const cats=data.categorias||[],prod=data.produtos||[];
   const comCupom=prod.filter(p=>p.cupom);
+
   const navLinks=cats.map((c,i)=>`<a href="#${slug(c)}"><b>A-${String(i+1).padStart(2,'0')}</b>${esc(c)}</a>`);
-  if(comCupom.length) navLinks.unshift(`<a href="#cupons" style="color:var(--green);font-weight:700">C-00 Cupons</a>`);
+  if(comCupom.length) navLinks.unshift(`<a href="#cupons" class="cupons-link">C-00 Cupons</a>`);
   document.getElementById('catnav').innerHTML=navLinks.join('');
 
   buildSlider(prod.filter(p=>p.destaque));
   buildCupons(comCupom);
 
   const catEl=document.getElementById('catalog');
-  if(!prod.length){
-    catEl.innerHTML=`<div class="empty"><div class="mono">Catálogo vazio</div>Marque itens como "Publicado" no Notion e atualize o site.</div>`;
-    return;
-  }
+  if(!prod.length){catEl.innerHTML=`<div class="empty"><div class="mono">Catálogo vazio</div>Marque itens como "Publicado" no Notion e atualize o site.</div>`;return}
   catEl.innerHTML='';
   cats.forEach((c,i)=>{
     const itens=prod.filter(p=>p.categoria===c);
     if(!itens.length)return;
-    const sec=document.createElement('section');
-    sec.className='catsec';sec.id=slug(c);
+    const sec=document.createElement('section');sec.className='catsec';sec.id=slug(c);
     sec.innerHTML=`<div class="section-head"><span class="sheet">A-${String(i+1).padStart(2,'0')}</span><h2>${esc(c)}</h2><span class="rule"></span></div>`;
     const grid=document.createElement('div');grid.className='grid';
     itens.forEach(p=>grid.appendChild(makeCard(p)));
@@ -531,10 +540,8 @@ function render(data){
   });
 }
 
-fetch('products.json?v='+Date.now())
-  .then(r=>r.json()).then(render)
-  .catch(()=>{document.getElementById('catalog').innerHTML=
-    `<div class="empty"><div class="mono">Erro ao carregar</div>Não foi possível ler products.json.</div>`});
+fetch('products.json?v='+Date.now()).then(r=>r.json()).then(render)
+  .catch(()=>{document.getElementById('catalog').innerHTML=`<div class="empty"><div class="mono">Erro ao carregar</div>Não foi possível ler products.json.</div>`});
 </script>
 </body>
 </html>
