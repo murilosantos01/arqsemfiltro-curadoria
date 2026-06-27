@@ -77,6 +77,9 @@ body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);-we
 .slide h3{font-family:'Archivo',sans-serif;font-weight:800;font-size:clamp(20px,3vw,30px);line-height:1.05;letter-spacing:-.01em;margin-bottom:10px}
 .slide p.sdesc{color:#CFCABA;font-size:15px;margin-bottom:20px;max-width:44ch}
 .slide .scupom{display:inline-flex;align-items:center;gap:8px;background:rgba(242,183,5,.12);border:1px solid var(--signal);color:var(--signal);font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.08em;padding:6px 12px;margin-bottom:16px;text-transform:uppercase;width:fit-content}
+.slide .scats{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.slide .scats-label{width:100%;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#7A7568;margin-bottom:2px}
+.slide .scat{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.04em;color:var(--white);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);padding:5px 11px;border-radius:20px}
 .slider-controls{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:rgba(23,21,15,.7);border-top:1px solid rgba(255,255,255,.08)}
 .slider-dots{display:flex;gap:8px}
 .dot{width:24px;height:3px;background:rgba(255,255,255,.25);cursor:pointer;transition:background .2s,width .2s;border:none}
@@ -93,16 +96,12 @@ body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);-we
 .cupons-rail::-webkit-scrollbar-thumb{background:var(--signal-deep);border-radius:20px}
 .cupons-rail::-webkit-scrollbar-track{background:var(--paper-2)}
 
-/* TICKET DE CINEMA — amarelo, horizontal, recortado */
-.ticket{flex:0 0 auto;width:380px;scroll-snap-align:start;cursor:pointer;display:flex;align-items:stretch;background:var(--signal);filter:drop-shadow(0 4px 10px rgba(23,21,15,.18));transition:transform .15s,filter .15s;--notch:13px}
+/* TICKET DE CINEMA — amarelo, horizontal, com rasgo visível */
+.ticket{flex:0 0 auto;width:380px;scroll-snap-align:start;cursor:pointer;display:flex;align-items:stretch;background:var(--signal);border:2px solid var(--ink);position:relative;filter:drop-shadow(0 4px 10px rgba(23,21,15,.18));transition:transform .15s,filter .15s}
 .ticket:hover{transform:translateY(-3px);filter:drop-shadow(0 8px 18px rgba(23,21,15,.28))}
 
 /* corpo principal (foto + nome) */
-.ticket-main{flex:1;min-width:0;background:var(--signal);border:2px solid var(--ink);border-right:none;display:flex;flex-direction:column;
-  -webkit-mask:radial-gradient(var(--notch) at 100% 0,transparent 98%,#000) top right,radial-gradient(var(--notch) at 100% 100%,transparent 98%,#000) bottom right;
-  -webkit-mask-size:100% 51%;-webkit-mask-repeat:no-repeat;
-  mask:radial-gradient(var(--notch) at 100% 0,transparent 98%,#000) top right,radial-gradient(var(--notch) at 100% 100%,transparent 98%,#000) bottom right;
-  mask-size:100% 51%;mask-repeat:no-repeat}
+.ticket-main{flex:1;min-width:0;display:flex;flex-direction:column}
 .ticket-photo{height:100px;overflow:hidden;position:relative;background:#fff;display:flex;align-items:center;justify-content:center;border-bottom:2px solid var(--ink)}
 .ticket-photo img{width:100%;height:100%;object-fit:contain;padding:6px}
 .ticket-photo .tph{font-family:'IBM Plex Mono',monospace;font-size:10px;color:#B0AB9E;text-transform:uppercase;letter-spacing:.08em}
@@ -111,15 +110,15 @@ body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);-we
 .ticket-nome{font-family:'Archivo',sans-serif;font-weight:800;font-size:15px;line-height:1.1;letter-spacing:-.01em;color:var(--ink);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .ticket-desconto{display:inline-block;margin-top:6px;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;color:var(--signal);background:var(--ink);padding:2px 7px;width:fit-content}
 
-/* linha tracejada de rasgo (vertical) */
-.ticket-perf{width:0;border-left:2px dashed var(--ink);margin:9px 0;flex:0 0 auto}
+/* RASGO: linha tracejada com bolinhas pretas (lê como picote de ingresso) */
+.ticket-perf{flex:0 0 auto;position:relative;width:14px;display:flex;align-items:center;justify-content:center}
+.ticket-perf::before{content:"";position:absolute;top:0;bottom:0;left:50%;transform:translateX(-50%);border-left:2px dashed var(--ink)}
+/* círculos pretos nas pontas do rasgo (entram pra dentro do ticket) */
+.ticket-perf::after{content:"";position:absolute;top:-2px;left:50%;transform:translate(-50%,-50%);width:14px;height:14px;background:var(--paper);border:2px solid var(--ink);border-radius:50%}
+.ticket-notch-bottom{position:absolute;bottom:-2px;left:50%;transform:translate(-50%,50%);width:14px;height:14px;background:var(--paper);border:2px solid var(--ink);border-radius:50%;z-index:2}
 
 /* canhoto com o cupom */
-.ticket-stub{flex:0 0 96px;background:var(--signal);border:2px solid var(--ink);border-left:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;padding:10px 7px;
-  -webkit-mask:radial-gradient(var(--notch) at 0 0,transparent 98%,#000) top left,radial-gradient(var(--notch) at 0 100%,transparent 98%,#000) bottom left;
-  -webkit-mask-size:100% 51%;-webkit-mask-repeat:no-repeat;
-  mask:radial-gradient(var(--notch) at 0 0,transparent 98%,#000) top left,radial-gradient(var(--notch) at 0 100%,transparent 98%,#000) bottom left;
-  mask-size:100% 51%;mask-repeat:no-repeat}
+.ticket-stub{flex:0 0 96px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;padding:10px 7px}
 .ticket-stub-label{font-family:'IBM Plex Mono',monospace;font-size:7px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
 .ticket-stub-code{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--ink);text-align:center;word-break:break-all;line-height:1.2}
 .ticket-copy{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:var(--ink);color:var(--signal);border:none;padding:6px 8px;cursor:pointer;transition:opacity .15s;width:100%}
@@ -346,10 +345,12 @@ function buildSlider(items){
     const desc=safeDesc(p.descricao);
     const cup=p.cupom?`<div class="scupom"><small style="opacity:.7;font-size:10px">Cupom</small> ${esc(p.cupom)}</div>`:'';
     const loja=p.loja?`<div class="sloja">${esc(p.loja)}</div>`:'';
+    const cats=(p.categorias&&p.categorias.length)?`<div class="scats"><span class="scats-label">Ideal para</span>${p.categorias.map(c=>`<span class="scat">${esc(c)}</span>`).join('')}</div>`:'';
     return `<article class="slide"><div class="simg">${img}</div><div class="sbody">
       <div class="sribbon">Destaque</div>${loja}
       <h3>${esc(p.nome)}</h3>
-      ${desc?`<p class="sdesc">${esc(desc)}</p>`:''}${cup}
+      ${desc?`<p class="sdesc">${esc(desc)}</p>`:''}
+      ${cats}${cup}
       ${isUrl(p.link)?`<a class="btn" href="${esc(p.link)}" target="_blank" rel="${REL}">Ver na loja <span class="arr">→</span></a>`:''}
     </div></article>`;
   }).join('');
@@ -380,7 +381,7 @@ function buildCupons(items){
           ${desconto}
         </div>
       </div>
-      <div class="ticket-perf"></div>
+      <div class="ticket-perf"><span class="ticket-notch-bottom"></span></div>
       <div class="ticket-stub">
         <div class="ticket-stub-label">Cupom</div>
         <div class="ticket-stub-code">${esc(p.cupom)}</div>
