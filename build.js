@@ -27,7 +27,13 @@ const DIST    = "dist";
 const IMG_DIR = path.join(DIST, "images");
 
 const txt = (rich) => (rich || []).map((r) => r.plain_text).join("").trim();
-const cleanUrl = (u) => (u || "").trim().replace(/[\u200B-\u200D\uFEFF]/g, "");
+const cleanUrl = (u) => {
+  let s = (u || "").trim().replace(/[\u200B-\u200D\uFEFF]/g, "");
+  if (!s) return "";
+  // se não começar com http(s), assume https://
+  if (!/^https?:\/\//i.test(s)) s = "https://" + s.replace(/^\/+/, "");
+  return s;
+};
 
 function readProps(props) {
   const p     = (name) => props[name];
@@ -137,10 +143,10 @@ async function fetchFromNotion() {
 function mockRows() {
   return [
     { nome:"Pendurador de Roupa Travessa", categorias:["Visual Merchandising"], categoria:"Visual Merchandising",
-      loja:"Comac", link:"https://comac.com.br/produto/1", cupom:"ARQSEMFILTRO", desconto:"", badge:"🔥 Trending",
+      loja:"Comac", link:"www.comac.com.br/produto/1", cupom:"ARQSEMFILTRO", desconto:"", badge:"🔥 Trending",
       descricao:"Organiza o espaço vertical e dobra a capacidade de exposição sem obra.", destaque:true },
     { nome:"KIT 200 Cabides Veludo", categorias:["Visual Merchandising"], categoria:"Visual Merchandising",
-      loja:"Mercado Livre", link:"https://mercadolivre.com.br/1", cupom:"CASA15", desconto:"15%", badge:"",
+      loja:"Mercado Livre", link:"mercadolivre.com.br/1", cupom:"CASA15", desconto:"15%", badge:"",
       descricao:"Cabide de veludo não cai, não deforma, não envergonha. Detalhe que eleva a percepção do produto.", destaque:true },
     { nome:"Coifa Industrial", categorias:["Alimentação"], categoria:"Alimentação",
       loja:"Mercado Livre", link:"https://mercadolivre.com.br/2", cupom:"ARQSF10", desconto:"10%", badge:"",
@@ -154,7 +160,7 @@ function mockRows() {
     { nome:"Bancada Inox 110cm", categorias:["Alimentação"], categoria:"Alimentação",
       loja:"Metalfrio", link:"https://metalfrio.com.br/1", cupom:"INOX20", desconto:"20%", badge:"",
       descricao:"Inox = higiene visual. Em alimentação é o sinal que o cliente procura antes de pedir.", destaque:false },
-  ].map((r,i) => ({ id:"mock-"+i, catIds:[], fotoUrls:[], imagens:[], imagem:null, status:"Publicado", ...r }));
+  ].map((r,i) => ({ id:"mock-"+i, catIds:[], fotoUrls:[], imagens:[], imagem:null, status:"Publicado", ...r, link: cleanUrl(r.link) }));
 }
 
 async function main() {
