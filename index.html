@@ -215,6 +215,73 @@ footer p{color:#A8A293;max-width:40ch;font-size:14px;margin-top:10px}
 footer .disc{font-family:'IBM Plex Mono',monospace;font-size:10px;color:#7A7568;letter-spacing:.04em;max-width:48ch;line-height:1.8}
 footer a.ig{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--signal);text-decoration:none;letter-spacing:.05em}
 footer a.ig:hover{text-decoration:underline}
+/* ============================================================
+   MOBILE — só telas pequenas. Desktop não é afetado.
+   ============================================================ */
+@media(max-width:640px){
+  .wrap{padding:0 16px}
+
+  /* topbar mais enxuta */
+  .topbar .wrap{height:54px}
+  .brand{font-size:17px}
+  .topbar-meta{display:none}
+
+  /* hero compacto */
+  .hero .wrap{padding:36px 16px 32px}
+  .hero h1{font-size:clamp(30px,9vw,44px)}
+  .hero p.lead{margin-top:18px;font-size:15px}
+  .eyebrow{margin-bottom:16px;font-size:11px}
+  .stamp{display:none}
+
+  /* CATNAV — vira chips roláveis estilo Mercado Livre */
+  .catnav{top:54px}
+  .catnav .wrap{gap:8px;padding:10px 16px}
+  .catnav a{border:1.5px solid var(--line);border-radius:20px;padding:8px 14px;font-size:11px;background:var(--white)}
+  .catnav a:first-child{border-left:1.5px solid var(--line)}
+  .catnav a b{display:none}
+  .catnav a.active{border-color:var(--ink)}
+  .catnav a.cupons-link{border-color:var(--green)}
+
+  /* DESTAQUES compacto: foto menor, empilhado */
+  .featured{padding:28px 0 4px}
+  .slide{grid-template-columns:1fr;min-height:0}
+  .slide .simg{min-height:180px;height:200px}
+  .slide .sbody{padding:18px 18px 20px}
+  .slide h3{font-size:22px}
+  .slide p.sdesc{font-size:14px;margin-bottom:14px}
+  .slide .scats{margin-bottom:14px;gap:6px}
+  .slide .scat{font-size:10px;padding:4px 9px}
+  .slider-controls{padding:12px 14px}
+
+  /* CUPONS — 1 ticket por tela, swipe travado */
+  .cupons-sec{padding:28px 0 4px}
+  .cupons-rail{gap:12px;padding:4px 16px 16px;scroll-padding:0 16px}
+  .ticket{width:86vw}
+  .ticket-photo{height:120px}
+
+  /* CATÁLOGO compacto: 2 colunas com respiro */
+  .catsec{padding:32px 0 4px}
+  .section-head{margin-bottom:16px;gap:10px}
+  .section-head h2{font-size:22px}
+  .grid{grid-template-columns:repeat(2,1fr);gap:10px;border:none}
+  .card{border:1.5px solid var(--ink)}
+  .card .cimg-main{aspect-ratio:1/1}
+  .card h3{font-size:14px}
+  .card .cdesc{font-size:12px;-webkit-line-clamp:2;margin-bottom:10px}
+  .card .cbody{padding:12px 12px 10px}
+  .card .cfoot{margin:0 -12px -10px;padding:9px 12px;flex-wrap:wrap;gap:6px}
+  .card .cbtn{font-size:10px;padding:6px 10px}
+  .card .cloja{font-size:8px}
+  .badge-custom{font-size:18px}
+
+  /* modal full-width no mobile */
+  .modal{grid-template-columns:1fr;max-height:92vh}
+  .modal .mbody{padding:20px 18px}
+
+  /* footer empilhado */
+  footer .wrap{padding:32px 16px;flex-direction:column;gap:20px}
+}
+
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
@@ -521,6 +588,34 @@ function render(data){
     itens.forEach(p=>grid.appendChild(makeCard(p)));
     sec.appendChild(grid);catEl.appendChild(sec);
   });
+
+  // ---- SCROLL SPY: destaca a categoria ativa na barra ----
+  setupScrollSpy();
+}
+
+function setupScrollSpy(){
+  const navAnchors=Array.from(document.querySelectorAll('.catnav a'));
+  // mapa: id da seção -> link da nav
+  const linkFor=id=>navAnchors.find(a=>a.getAttribute('href')==='#'+id);
+  const sections=[];
+  document.querySelectorAll('.catsec, #cupons').forEach(s=>{ if(s.id) sections.push(s); });
+  if(!sections.length)return;
+
+  const obs=new IntersectionObserver((entries)=>{
+    entries.forEach(en=>{
+      if(en.isIntersecting){
+        navAnchors.forEach(a=>a.classList.remove('active'));
+        const link=linkFor(en.target.id);
+        if(link){
+          link.classList.add('active');
+          // centraliza o link ativo na barra rolável
+          link.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'});
+        }
+      }
+    });
+  },{rootMargin:'-45% 0px -50% 0px',threshold:0});
+
+  sections.forEach(s=>obs.observe(s));
 }
 
 fetch('products.json?v='+Date.now()).then(r=>r.json()).then(render)
