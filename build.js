@@ -21,6 +21,10 @@ const COL = {
   cupom:     "CUPOM",
   desconto:  "Desconto",
   badge:     "Badge",
+  nota:      "Nota ArqSemFiltro",
+  pontos:    "Pontos de Atenção",
+  review:    "Review ArqSemFiltro",
+  valeapena: "Vale a pena?",
 };
 const STATUS_PUBLICADO = "Publicado";
 const DIST    = "dist";
@@ -59,6 +63,25 @@ function readProps(props) {
   const badge     = p(COL.badge)?.rich_text;
   const fotoFiles = p(COL.foto)?.files || [];
 
+  // ---- Review ArqSemFiltro (4 colunas) ----
+  // Nota: aceita Number ou texto ("8,8 / 10", "9.1", "9") → normaliza p/ número 0-10
+  const notaProp = p(COL.nota);
+  let notaRaw = "";
+  if (notaProp?.type === "number" && notaProp.number != null) notaRaw = String(notaProp.number);
+  else if (notaProp?.rich_text) notaRaw = txt(notaProp.rich_text);
+  const notaMatch = notaRaw.replace(",", ".").match(/\d+(\.\d+)?/);
+  const nota = notaMatch ? Math.min(10, parseFloat(notaMatch[0])) : null;
+
+  // Pontos de Atenção: texto com bullets/quebras → array de itens limpos
+  const pontosTxt = p(COL.pontos)?.rich_text ? txt(p(COL.pontos).rich_text) : "";
+  const pontos = pontosTxt
+    .split(/\n|(?:^|\s)[•·▪-]\s+/)
+    .map(s => s.trim().replace(/^[•·▪-]\s*/, ""))
+    .filter(s => s.length > 2);
+
+  const review    = p(COL.review)?.rich_text    ? txt(p(COL.review).rich_text)    : "";
+  const valeapena = p(COL.valeapena)?.rich_text ? txt(p(COL.valeapena).rich_text) : "";
+
   const fotoUrls = fotoFiles.map(f =>
     f.type === "external" ? f.external?.url : f.file?.url
   ).filter(Boolean);
@@ -76,6 +99,7 @@ function readProps(props) {
     desconto:  desconto ? txt(desconto) : "",
     badge:     badge    ? txt(badge)    : "",
     destaque:  !!destaque,
+    nota, pontos, review, valeapena,
     fotoUrls,
   };
 }
@@ -167,7 +191,15 @@ function mockRows() {
     { nome:"Bancada Inox 110cm", categorias:["Alimentação"], categoria:"Alimentação",
       loja:"Metalfrio", link:"https://metalfrio.com.br/1", cupom:"INOX20", desconto:"20%", badge:"",
       descricao:"Inox = higiene visual. Em alimentação é o sinal que o cliente procura antes de pedir.", destaque:false },
-  ].map((r,i) => ({ id:"mock-"+i, catIds:[], fotoUrls:[], imagens:[], imagem:null, status:"Publicado", ...r, link: cleanUrl(r.link) }));
+  ].map((r,i) => ({
+    id:"mock-"+i, catIds:[], fotoUrls:[], imagens:[], imagem:null, status:"Publicado",
+    // review mock: nos 3 primeiros para testar card/modal com e sem review
+    nota: i<3 ? [9.1, 8.8, 9.7][i] : null,
+    pontos: i<3 ? ["Indicado para ambientes internos", "Exige fixação em parede de alvenaria", "Acabamento sensível a produtos abrasivos"] : [],
+    review: i<3 ? "Costumo utilizar esse tipo de peça em projetos de loja porque resolve exposição vertical sem obra. O acabamento segura bem o uso diário e a instalação é simples." : "",
+    valeapena: i<3 ? "Sim. É uma excelente opção pra quem quer expor mais produto por metro quadrado sem investir em mobiliário caro." : "",
+    ...r, link: cleanUrl(r.link)
+  }));
 }
 
 async function main() {
@@ -195,6 +227,7 @@ async function main() {
       id:r.id, nome:r.nome, categorias:r.categorias, categoria:r.categoria,
       descricao:r.descricao, loja:r.loja, link:r.link,
       cupom:r.cupom, desconto:r.desconto, badge:r.badge,
+      nota:r.nota??null, pontos:r.pontos||[], review:r.review||"", valeapena:r.valeapena||"",
       destaque:r.destaque, imagem, imagens
     });
   }

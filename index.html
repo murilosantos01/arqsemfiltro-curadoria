@@ -154,6 +154,14 @@ body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);-we
 
 .card .cbody{padding:16px 16px 14px;display:flex;flex-direction:column;flex:1}
 .card h3{font-family:'Archivo',sans-serif;font-weight:700;font-size:17px;line-height:1.2;letter-spacing:-.01em;margin-bottom:8px}
+/* Nota ArqSemFiltro no card — fina, elegante, discreta */
+.card .cnota{display:flex;align-items:baseline;gap:6px;margin-bottom:8px}
+.card .cnota .star{color:var(--signal-deep);font-size:13px}
+.card .cnota .val{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;color:var(--ink)}
+.card .cnota .lbl{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:#B0AB9E}
+/* Badge Review clicável */
+.card .creview-badge{display:inline-flex;align-items:center;gap:6px;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--ink);background:transparent;border:1.5px solid var(--ink);padding:5px 10px;cursor:pointer;transition:background .15s,color .15s;width:fit-content;margin-bottom:12px;border-radius:var(--r)}
+.card .creview-badge:hover{background:var(--ink);color:var(--signal)}
 .card .cdesc{font-size:13px;color:var(--ink-soft);flex:1;margin-bottom:14px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .card .cfoot{border-top:1px solid var(--line);margin:0 -16px -14px;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:8px}
 .card .cloja{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;color:#B0AB9E;text-transform:uppercase}
@@ -192,6 +200,25 @@ body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);-we
 .modal .mb-custom{font-family:'Archivo',sans-serif;font-size:20px;line-height:1;font-weight:700;color:var(--ink)}
 
 /* cupom no modal */
+/* ===== REVIEW ARQSEMFILTRO no modal ===== */
+.modal .mreview{border-top:1.5px solid var(--ink);margin:4px -22px 16px;padding:18px 22px 0}
+.modal .mreview-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:12px}
+.modal .mreview-title{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--signal-deep)}
+.modal .mreview-nota{display:flex;align-items:baseline;gap:5px}
+.modal .mreview-nota .star{color:var(--signal-deep);font-size:16px}
+.modal .mreview-nota .val{font-family:'IBM Plex Mono',monospace;font-size:19px;font-weight:700;color:var(--ink)}
+.modal .mreview-nota .max{font-family:'IBM Plex Mono',monospace;font-size:11px;color:#B0AB9E}
+/* veredito — o selo "vale a pena?" */
+.modal .mveredito{background:var(--ink);color:var(--white);padding:12px 14px;margin-bottom:14px}
+.modal .mveredito .vlabel{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--signal);margin-bottom:5px}
+.modal .mveredito .vtext{font-size:14px;line-height:1.5}
+.modal .mreview-body{font-size:14px;color:var(--ink-soft);line-height:1.6;margin-bottom:14px}
+.modal .mpontos{margin-bottom:16px}
+.modal .mpontos .plabel{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:7px}
+.modal .mpontos ul{list-style:none;padding:0;margin:0}
+.modal .mpontos li{font-size:13px;color:var(--ink-soft);padding-left:16px;position:relative;margin-bottom:5px;line-height:1.45}
+.modal .mpontos li::before{content:"—";position:absolute;left:0;color:var(--signal-deep)}
+
 .modal .mcupom-wrap{background:rgba(242,183,5,.06);border:1.5px solid var(--signal);padding:14px 16px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;gap:12px}
 .modal .mcupom-inner{display:flex;flex-direction:column;gap:2px}
 .modal .mcupom-label{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink-soft);letter-spacing:.08em;text-transform:uppercase}
@@ -267,6 +294,10 @@ footer a.ig:hover{text-decoration:underline}
   .card{border:1.5px solid var(--ink)}
   .card .cimg-main{aspect-ratio:1/1}
   .card h3{font-size:14px}
+  .card .cnota .val{font-size:11px}
+  .card .cnota .star{font-size:11px}
+  .card .cnota .lbl{font-size:7px}
+  .card .creview-badge{font-size:9px;padding:4px 8px;margin-bottom:8px}
   .card .cdesc{font-size:12px;-webkit-line-clamp:2;margin-bottom:10px}
   .card .cbody{padding:12px 12px 10px}
   .card .cfoot{margin:0 -12px -10px;padding:9px 12px;flex-wrap:wrap;gap:6px}
@@ -352,6 +383,7 @@ footer a.ig:hover{text-decoration:underline}
       <h2 id="mnome"></h2>
       <p class="mdesc" id="mdesc"></p>
       <div class="mbadges" id="mbadges"></div>
+      <div id="mreview-area"></div>
       <div id="mcupom-area"></div>
       <a class="mbtn" id="mbtn" target="_blank" rel="nofollow sponsored noopener" style="display:none">
         Ver na loja <span class="arr">→</span>
@@ -489,6 +521,19 @@ function openModal(p){
   ba.innerHTML=parts.join('');
   ba.style.display=parts.length?'flex':'none';
 
+  // Review ArqSemFiltro (só renderiza se houver conteúdo)
+  const ra=document.getElementById('mreview-area');
+  const temReview=p.nota!=null||p.review||p.valeapena||(p.pontos&&p.pontos.length);
+  if(temReview){
+    const notaHtml=p.nota!=null?`<div class="mreview-nota"><span class="star">★</span><span class="val">${String(p.nota).replace('.',',')}</span><span class="max">/10</span></div>`:'';
+    const veredito=p.valeapena?`<div class="mveredito"><div class="vlabel">Vale a pena?</div><div class="vtext">${esc(p.valeapena)}</div></div>`:'';
+    const reviewTxt=p.review?`<p class="mreview-body">${esc(p.review)}</p>`:'';
+    const pontos=(p.pontos&&p.pontos.length)?`<div class="mpontos"><div class="plabel">Pontos de atenção</div><ul>${p.pontos.map(pt=>`<li>${esc(pt)}</li>`).join('')}</ul></div>`:'';
+    ra.innerHTML=`<div class="mreview" id="mreview">
+      <div class="mreview-head"><span class="mreview-title">Review ArqSemFiltro</span>${notaHtml}</div>
+      ${veredito}${reviewTxt}${pontos}</div>`;
+  }else{ra.innerHTML=''}
+
   // cupom
   const ca=document.getElementById('mcupom-area');
   if(p.cupom){
@@ -547,18 +592,33 @@ function makeCard(p){
     ?`<a class="cbtn" href="${esc(p.link)}" target="_blank" rel="${REL}" onclick="event.stopPropagation()">Ver na loja <span class="arr">→</span></a>`
     :`<span class="cloja">Em breve</span>`;
 
+  const notaLine=p.nota!=null
+    ?`<div class="cnota"><span class="star">★</span><span class="val">${String(p.nota).replace('.',',')}</span><span class="lbl">Nota ArqSemFiltro</span></div>`
+    :'';
+  const temReview=p.nota!=null||p.review||p.valeapena||(p.pontos&&p.pontos.length);
+  const reviewBadge=temReview?`<button class="creview-badge" type="button">Review ArqSemFiltro ⊕</button>`:'';
+
   el.innerHTML=`
     <div class="cimg-wrap">
       <div class="cimg-main">${badgesBlock}${imgTag}</div>
     </div>
     <div class="cbody">
+      ${notaLine}
       <h3>${esc(p.nome)}</h3>
       <p class="cdesc">${esc(safeDesc(p.descricao))}</p>
+      ${reviewBadge}
       <div class="cfoot">${loja}${cbtn}</div>
     </div>`;
 
   const mainImgEl=el.querySelector('.cimg-main img');
   if(mainImgEl) buildCardThumbs(el.querySelector('.cimg-wrap'),mainImgEl,imgs);
+  const rvBtn=el.querySelector('.creview-badge');
+  if(rvBtn)rvBtn.addEventListener('click',e=>{
+    e.stopPropagation();
+    openModal(p);
+    // rola o modal até a seção de review
+    setTimeout(()=>{document.getElementById('mreview')?.scrollIntoView({behavior:'smooth',block:'start'})},250);
+  });
   el.addEventListener('click',()=>openModal(p));
   el.addEventListener('keydown',e=>{if(e.key==='Enter')openModal(p)});
   return el;
