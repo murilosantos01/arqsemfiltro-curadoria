@@ -154,13 +154,14 @@ body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);-we
 
 .card .cbody{padding:16px 16px 14px;display:flex;flex-direction:column;flex:1}
 .card h3{font-family:'Archivo',sans-serif;font-weight:700;font-size:17px;line-height:1.2;letter-spacing:-.01em;margin-bottom:8px}
-/* Nota ArqSemFiltro no card — fina, elegante, discreta */
-.card .cnota{display:flex;align-items:baseline;gap:6px;margin-bottom:8px}
-.card .cnota .star{color:var(--signal-deep);font-size:13px}
-.card .cnota .val{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;color:var(--ink)}
-.card .cnota .lbl{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:#B0AB9E}
+/* Bloco de review no rodapé do card: nota + badge juntos */
+.card .review-block{margin-bottom:12px;margin-top:auto;padding-top:10px;border-top:1px dashed var(--line)}
+.card .cnota{display:flex;align-items:center;gap:6px;margin-bottom:8px}
+.card .cnota .star{color:var(--signal-deep);font-size:13px;line-height:1}
+.card .cnota .val{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:700;color:var(--ink);line-height:1}
+.card .cnota .lbl{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);line-height:1}
 /* Badge Review clicável */
-.card .creview-badge{display:inline-flex;align-items:center;gap:6px;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--ink);background:transparent;border:1.5px solid var(--ink);padding:5px 10px;cursor:pointer;transition:background .15s,color .15s;width:fit-content;margin-bottom:12px;border-radius:var(--r)}
+.card .creview-badge{display:inline-flex;align-items:center;gap:6px;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--ink);background:transparent;border:1.5px solid var(--ink);padding:6px 11px;cursor:pointer;transition:background .15s,color .15s;width:fit-content;border-radius:var(--r)}
 .card .creview-badge:hover{background:var(--ink);color:var(--signal)}
 .card .cdesc{font-size:13px;color:var(--ink-soft);flex:1;margin-bottom:14px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .card .cfoot{border-top:1px solid var(--line);margin:0 -16px -14px;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:8px}
@@ -200,25 +201,6 @@ body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);-we
 .modal .mb-custom{font-family:'Archivo',sans-serif;font-size:20px;line-height:1;font-weight:700;color:var(--ink)}
 
 /* cupom no modal */
-/* ===== REVIEW ARQSEMFILTRO no modal ===== */
-.modal .mreview{border-top:1.5px solid var(--ink);margin:4px -22px 16px;padding:18px 22px 0}
-.modal .mreview-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:12px}
-.modal .mreview-title{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--signal-deep)}
-.modal .mreview-nota{display:flex;align-items:baseline;gap:5px}
-.modal .mreview-nota .star{color:var(--signal-deep);font-size:16px}
-.modal .mreview-nota .val{font-family:'IBM Plex Mono',monospace;font-size:19px;font-weight:700;color:var(--ink)}
-.modal .mreview-nota .max{font-family:'IBM Plex Mono',monospace;font-size:11px;color:#B0AB9E}
-/* veredito — o selo "vale a pena?" */
-.modal .mveredito{background:var(--ink);color:var(--white);padding:12px 14px;margin-bottom:14px}
-.modal .mveredito .vlabel{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--signal);margin-bottom:5px}
-.modal .mveredito .vtext{font-size:14px;line-height:1.5}
-.modal .mreview-body{font-size:14px;color:var(--ink-soft);line-height:1.6;margin-bottom:14px}
-.modal .mpontos{margin-bottom:16px}
-.modal .mpontos .plabel{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:7px}
-.modal .mpontos ul{list-style:none;padding:0;margin:0}
-.modal .mpontos li{font-size:13px;color:var(--ink-soft);padding-left:16px;position:relative;margin-bottom:5px;line-height:1.45}
-.modal .mpontos li::before{content:"—";position:absolute;left:0;color:var(--signal-deep)}
-
 .modal .mcupom-wrap{background:rgba(242,183,5,.06);border:1.5px solid var(--signal);padding:14px 16px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;gap:12px}
 .modal .mcupom-inner{display:flex;flex-direction:column;gap:2px}
 .modal .mcupom-label{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink-soft);letter-spacing:.08em;text-transform:uppercase}
@@ -230,6 +212,44 @@ body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);-we
 .modal .mbtn:hover{background:var(--signal-deep);transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--ink)}
 .modal-close{position:absolute;top:12px;right:12px;width:34px;height:34px;background:var(--white);border:1.5px solid var(--ink);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10}
 .modal-close:hover{background:var(--ink);color:var(--white)}
+
+/* ===== MODAL EXCLUSIVO DE REVIEW ARQSEMFILTRO ===== */
+.rv-bg{position:fixed;inset:0;background:rgba(23,21,15,.78);z-index:210;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .2s}
+.rv-bg.open{opacity:1;pointer-events:all}
+.rv-modal{background:var(--white);border:1.5px solid var(--ink);max-width:560px;width:100%;max-height:90vh;overflow-y:auto;position:relative;transform:translateY(16px);transition:transform .25s;display:flex;flex-direction:column}
+.rv-bg.open .rv-modal{transform:translateY(0)}
+.rv-close{position:absolute;top:12px;right:12px;width:34px;height:34px;background:var(--white);border:1.5px solid var(--ink);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10}
+.rv-close:hover{background:var(--ink);color:var(--white)}
+
+.rv-header{padding:26px 26px 20px;border-bottom:1.5px solid var(--ink);background:var(--paper)}
+.rv-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--signal-deep);margin-bottom:10px;display:inline-flex;align-items:center;gap:8px}
+.rv-eyebrow::before{content:"";width:22px;height:1.5px;background:var(--signal-deep)}
+.rv-header h2{font-family:'Archivo',sans-serif;font-weight:800;font-size:22px;line-height:1.15;letter-spacing:-.01em;color:var(--ink);margin-bottom:14px}
+.rv-nota-row{display:flex;align-items:center;gap:14px}
+.rv-nota-big{display:flex;align-items:baseline;gap:4px}
+.rv-nota-big .star{color:var(--signal-deep);font-size:22px;margin-right:4px}
+.rv-nota-big .val{font-family:'IBM Plex Mono',monospace;font-size:32px;font-weight:700;color:var(--ink);line-height:1}
+.rv-nota-big .max{font-family:'IBM Plex Mono',monospace;font-size:13px;color:#9C9685}
+.rv-nota-lbl{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);max-width:12ch;line-height:1.4}
+
+.rv-body{padding:22px 26px}
+/* veredito destacado */
+.rv-veredito{background:var(--ink);color:var(--white);padding:14px 16px;margin-bottom:18px}
+.rv-veredito .vlbl{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--signal);margin-bottom:6px}
+.rv-veredito .vtxt{font-size:14px;line-height:1.55}
+/* texto corrido da review */
+.rv-texto{font-size:14px;color:var(--ink-soft);line-height:1.65;margin-bottom:20px}
+/* pontos de atenção */
+.rv-pontos-lbl{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.rv-pontos-list{list-style:none;padding:0;margin:0}
+.rv-pontos-list li{font-size:13px;color:var(--ink-soft);padding-left:18px;position:relative;margin-bottom:8px;line-height:1.5}
+.rv-pontos-list li::before{content:"—";position:absolute;left:0;color:var(--signal-deep);font-weight:700}
+
+.rv-footer{padding:16px 26px 22px;border-top:1.5px solid var(--line);display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.rv-cta{display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;background:var(--signal);color:var(--ink);border:1.5px solid var(--signal);padding:11px 18px;border-radius:var(--r);transition:transform .12s,background .15s;cursor:pointer}
+.rv-cta:hover{background:var(--signal-deep);border-color:var(--signal-deep);transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--ink)}
+.rv-cta .arr{transition:transform .15s}
+.rv-cta:hover .arr{transform:translateX(3px)}
 
 .empty{padding:80px 0;text-align:center;color:var(--ink-soft)}
 .empty .mono{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--signal-deep);margin-bottom:12px}
@@ -383,7 +403,6 @@ footer a.ig:hover{text-decoration:underline}
       <h2 id="mnome"></h2>
       <p class="mdesc" id="mdesc"></p>
       <div class="mbadges" id="mbadges"></div>
-      <div id="mreview-area"></div>
       <div id="mcupom-area"></div>
       <a class="mbtn" id="mbtn" target="_blank" rel="nofollow sponsored noopener" style="display:none">
         Ver na loja <span class="arr">→</span>
@@ -402,6 +421,24 @@ footer a.ig:hover{text-decoration:underline}
     <p class="disc">Alguns links desta página são de afiliado. Se você compra por eles, posso receber uma comissão — sem custo extra pra você. Só indico o que eu colocaria na minha própria operação.</p>
   </div>
 </footer>
+
+<!-- MODAL EXCLUSIVO DE REVIEW ARQSEMFILTRO -->
+<div class="rv-bg" id="rvBg" role="dialog" aria-modal="true" aria-labelledby="rvNome">
+  <div class="rv-modal">
+    <button class="rv-close" id="rvClose" aria-label="Fechar">&#x2715;</button>
+    <div class="rv-header">
+      <div class="rv-eyebrow">Review ArqSemFiltro</div>
+      <h2 id="rvNome"></h2>
+      <div class="rv-nota-row" id="rvNotaRow"></div>
+    </div>
+    <div class="rv-body">
+      <div id="rvVeredito"></div>
+      <div id="rvTexto"></div>
+      <div id="rvPontos"></div>
+    </div>
+    <div class="rv-footer" id="rvFooter"></div>
+  </div>
+</div>
 
 <script>
 const REL='nofollow sponsored noopener';
@@ -521,19 +558,6 @@ function openModal(p){
   ba.innerHTML=parts.join('');
   ba.style.display=parts.length?'flex':'none';
 
-  // Review ArqSemFiltro (só renderiza se houver conteúdo)
-  const ra=document.getElementById('mreview-area');
-  const temReview=p.nota!=null||p.review||p.valeapena||(p.pontos&&p.pontos.length);
-  if(temReview){
-    const notaHtml=p.nota!=null?`<div class="mreview-nota"><span class="star">★</span><span class="val">${String(p.nota).replace('.',',')}</span><span class="max">/10</span></div>`:'';
-    const veredito=p.valeapena?`<div class="mveredito"><div class="vlabel">Vale a pena?</div><div class="vtext">${esc(p.valeapena)}</div></div>`:'';
-    const reviewTxt=p.review?`<p class="mreview-body">${esc(p.review)}</p>`:'';
-    const pontos=(p.pontos&&p.pontos.length)?`<div class="mpontos"><div class="plabel">Pontos de atenção</div><ul>${p.pontos.map(pt=>`<li>${esc(pt)}</li>`).join('')}</ul></div>`:'';
-    ra.innerHTML=`<div class="mreview" id="mreview">
-      <div class="mreview-head"><span class="mreview-title">Review ArqSemFiltro</span>${notaHtml}</div>
-      ${veredito}${reviewTxt}${pontos}</div>`;
-  }else{ra.innerHTML=''}
-
   // cupom
   const ca=document.getElementById('mcupom-area');
   if(p.cupom){
@@ -574,6 +598,53 @@ document.addEventListener('keydown',e=>{
   if(e.key==='ArrowRight')setModalImg(mCur+1);
 });
 
+/* ===== MODAL DE REVIEW ARQSEMFILTRO ===== */
+function openReviewModal(p){
+  document.getElementById('rvNome').textContent=p.nome;
+
+  // linha da nota grande + label
+  const nr=document.getElementById('rvNotaRow');
+  if(p.nota!=null){
+    nr.innerHTML=`<div class="rv-nota-big"><span class="star">★</span><span class="val">${String(p.nota).replace('.',',')}</span><span class="max">/10</span></div>
+      <div class="rv-nota-lbl">Nota ArqSemFiltro</div>`;
+    nr.style.display='flex';
+  }else{nr.innerHTML='';nr.style.display='none'}
+
+  // veredito
+  const vr=document.getElementById('rvVeredito');
+  vr.innerHTML=p.valeapena?`<div class="rv-veredito"><div class="vlbl">Vale a pena?</div><div class="vtxt">${esc(p.valeapena)}</div></div>`:'';
+
+  // texto corrido
+  const tx=document.getElementById('rvTexto');
+  tx.innerHTML=p.review?`<p class="rv-texto">${esc(p.review)}</p>`:'';
+
+  // pontos de atenção
+  const pt=document.getElementById('rvPontos');
+  pt.innerHTML=(p.pontos&&p.pontos.length)
+    ?`<div class="rv-pontos-lbl">Pontos de atenção</div><ul class="rv-pontos-list">${p.pontos.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`
+    :'';
+
+  // footer com CTA
+  const ft=document.getElementById('rvFooter');
+  const parts=[];
+  if(isUrl(p.link)) parts.push(`<a class="rv-cta" href="${esc(p.link)}" target="_blank" rel="${REL}">Ver na loja <span class="arr">→</span></a>`);
+  parts.push(`<button class="rv-cta" style="background:transparent;color:var(--ink);border-color:var(--ink)" id="rvVerMais">Ver detalhes do produto</button>`);
+  ft.innerHTML=parts.join('');
+  ft.querySelector('#rvVerMais')?.addEventListener('click',()=>{closeReviewModal();openModal(p)});
+
+  document.getElementById('rvBg').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeReviewModal(){
+  document.getElementById('rvBg').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.getElementById('rvClose').addEventListener('click',closeReviewModal);
+document.getElementById('rvBg').addEventListener('click',e=>{if(e.target===e.currentTarget)closeReviewModal()});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape' && document.getElementById('rvBg').classList.contains('open'))closeReviewModal();
+});
+
 /* CARDS */
 function makeCard(p){
   const el=document.createElement('article');
@@ -596,17 +667,18 @@ function makeCard(p){
     ?`<div class="cnota"><span class="star">★</span><span class="val">${String(p.nota).replace('.',',')}</span><span class="lbl">Nota ArqSemFiltro</span></div>`
     :'';
   const temReview=p.nota!=null||p.review||p.valeapena||(p.pontos&&p.pontos.length);
-  const reviewBadge=temReview?`<button class="creview-badge" type="button">Review ArqSemFiltro ⊕</button>`:'';
+  const reviewBlock=temReview
+    ?`<div class="review-block">${notaLine}<button class="creview-badge" type="button">Review ArqSemFiltro ⊕</button></div>`
+    :'';
 
   el.innerHTML=`
     <div class="cimg-wrap">
       <div class="cimg-main">${badgesBlock}${imgTag}</div>
     </div>
     <div class="cbody">
-      ${notaLine}
       <h3>${esc(p.nome)}</h3>
       <p class="cdesc">${esc(safeDesc(p.descricao))}</p>
-      ${reviewBadge}
+      ${reviewBlock}
       <div class="cfoot">${loja}${cbtn}</div>
     </div>`;
 
@@ -615,9 +687,7 @@ function makeCard(p){
   const rvBtn=el.querySelector('.creview-badge');
   if(rvBtn)rvBtn.addEventListener('click',e=>{
     e.stopPropagation();
-    openModal(p);
-    // rola o modal até a seção de review
-    setTimeout(()=>{document.getElementById('mreview')?.scrollIntoView({behavior:'smooth',block:'start'})},250);
+    openReviewModal(p);
   });
   el.addEventListener('click',()=>openModal(p));
   el.addEventListener('keydown',e=>{if(e.key==='Enter')openModal(p)});
