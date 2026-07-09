@@ -25,6 +25,12 @@ const COL = {
   pontos:    "Pontos de Atenção",
   review:    "Review ArqSemFiltro",
   valeapena: "Vale a pena?",
+  showroom:  "Showroom",
+  showroomOk:"Disponível Showroom",
+  showroomCor:"Showroom Cor",
+  showroomLogo:"Showroom Logo",
+  showroomManifesto:"Showroom Manifesto",
+  showroomBanner:"Showroom Banner",
 };
 const STATUS_PUBLICADO = "Publicado";
 const DIST    = "dist";
@@ -61,6 +67,18 @@ function readProps(props) {
   const destaque  = p(COL.destaque)?.checkbox;
   const desconto  = p(COL.desconto)?.rich_text;
   const badge     = p(COL.badge)?.rich_text;
+  const showroom  = p(COL.showroom)?.select?.name || "";
+  const showroomOk= p(COL.showroomOk)?.checkbox || false;
+  const showroomCor = p(COL.showroomCor)?.rich_text ? txt(p(COL.showroomCor).rich_text) : "";
+  const showroomManifesto = p(COL.showroomManifesto)?.rich_text ? txt(p(COL.showroomManifesto).rich_text) : "";
+  // Logo e Banner: pega URL do primeiro arquivo (ou null)
+  const pickFirstFileUrl = (files) => {
+    if (!files || !files.length) return null;
+    const f = files[0];
+    return f.type === "external" ? f.external?.url : f.file?.url;
+  };
+  const showroomLogoUrl = pickFirstFileUrl(p(COL.showroomLogo)?.files);
+  const showroomBannerUrl = pickFirstFileUrl(p(COL.showroomBanner)?.files);
   const fotoFiles = p(COL.foto)?.files || [];
 
   // ---- Review ArqSemFiltro (4 colunas) ----
@@ -100,6 +118,8 @@ function readProps(props) {
     badge:     badge    ? txt(badge)    : "",
     destaque:  !!destaque,
     nota, pontos, review, valeapena,
+    showroom, showroomOk, showroomCor, showroomManifesto,
+    showroomLogoUrl, showroomBannerUrl,
     fotoUrls,
   };
 }
@@ -198,6 +218,13 @@ function mockRows() {
     pontos: i<3 ? ["Indicado para ambientes internos", "Exige fixação em parede de alvenaria", "Acabamento sensível a produtos abrasivos"] : [],
     review: i<3 ? "Costumo utilizar esse tipo de peça em projetos de loja porque resolve exposição vertical sem obra. O acabamento segura bem o uso diário e a instalação é simples." : "",
     valeapena: i<3 ? "Sim. É uma excelente opção pra quem quer expor mais produto por metro quadrado sem investir em mobiliário caro." : "",
+    // showroom mock: Tok&Stok nos itens 0,2,4 — mas 4 tem checkbox desligado (não aparece)
+    showroom: [0,2,4].includes(i) ? "Tok&Stok" : (i===1 ? "Leroy Merlin" : ""),
+    showroomOk: [0,2].includes(i) || i===1,  // item 4 (Tok&Stok) fica de fora
+    showroomCor: [0,1,2,4].includes(i) ? (i===1 ? "#78BE20" : "#EE7D2C") : "",
+    showroomManifesto: i===0 ? "A parceria com a Tok&Stok existe porque poucos entendem que mobiliário residencial bem escolhido resolve varejo comercial pequeno — e essa é a única loja no Brasil que trata cada peça como decisão de design, não só de estoque." : (i===1 ? "O Leroy Merlin entrou pra essa curadoria por um motivo simples: quando o lojista precisa transformar espaço sem obra, é lá que a solução chega no dia seguinte." : ""),
+    showroomLogoUrl: null,
+    showroomBannerUrl: null,
     ...r, link: cleanUrl(r.link)
   }));
 }
@@ -228,6 +255,9 @@ async function main() {
       descricao:r.descricao, loja:r.loja, link:r.link,
       cupom:r.cupom, desconto:r.desconto, badge:r.badge,
       nota:r.nota??null, pontos:r.pontos||[], review:r.review||"", valeapena:r.valeapena||"",
+      showroom:r.showroom||"", showroomOk:!!r.showroomOk,
+      showroomCor:r.showroomCor||"", showroomManifesto:r.showroomManifesto||"",
+      showroomLogoUrl:r.showroomLogoUrl||null, showroomBannerUrl:r.showroomBannerUrl||null,
       destaque:r.destaque, imagem, imagens
     });
   }
@@ -246,7 +276,66 @@ async function main() {
   await fs.writeFile(path.join(DIST, "products.json"), JSON.stringify(data, null, 2));
   await fs.copyFile("index.html", path.join(DIST, "index.html"));
   await fs.writeFile(path.join(DIST, ".nojekyll"), "");
-  console.log(`\nPronto. ${produtos.length} produtos, ${categorias.length} categorias -> /dist`);
+
+  // ---- Páginas de Showroom (uma por showroom selecionado E com "Disponível Showroom" marcado) ----
+  const showrooms = {};
+  for (const p of produtos) {
+    if (!p.showroom || !p.showroomOk) continue; // precisa ter showroom E checkbox marcado
+    if (!showrooms[p.showroom]) showrooms[p.showroom] = [];
+    showrooms[p.showroom].push(p);
+  }
+  const showroomsMeta = [];
+  for (const [nome, prods] of Object.entries(showrooms)) {
+    const slug = nome.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/(^-|-$)/g,"");
+    const dir = path.join(DIST, "parceiros", slug);
+    await fs.mkdir(dir, { recursive: true });
+
+    // Pega assets do 1º produto que tiver preenchido (cor/manifesto/logo/banner são do showroom, não do produto)
+    const findFirst = (key) => { for (const p of prods) if (p[key]) return p[key]; return null; };
+    const cor = findFirst("showroomCor") || "";
+    const manifesto = findFirst("showroomManifesto") || "";
+    const logoUrl = findFirst("showroomLogoUrl");
+    const bannerUrl = findFirst("showroomBannerUrl");
+
+    // Baixa logo e banner (URLs do Notion expiram)
+    let logoLocal = null, bannerLocal = null;
+    if (logoUrl) {
+      logoLocal = await downloadImage(logoUrl, `showroom-${slug}-logo`);
+      if (logoLocal) {
+        // move da /dist/images pra /dist/parceiros/{slug}/logo.ext
+        const from = path.join(DIST, logoLocal);
+        const ext = path.extname(logoLocal);
+        const to = path.join(dir, `logo${ext}`);
+        await fs.rename(from, to);
+        logoLocal = `logo${ext}`;
+      }
+    }
+    if (bannerUrl) {
+      bannerLocal = await downloadImage(bannerUrl, `showroom-${slug}-banner`);
+      if (bannerLocal) {
+        const from = path.join(DIST, bannerLocal);
+        const ext = path.extname(bannerLocal);
+        const to = path.join(dir, `banner${ext}`);
+        await fs.rename(from, to);
+        bannerLocal = `banner${ext}`;
+      }
+    }
+
+    const meta = {
+      nome, slug, total: prods.length,
+      cor, manifesto,
+      logo: logoLocal,
+      banner: bannerLocal,
+      produtos: prods,
+    };
+    await fs.writeFile(path.join(dir, "products.json"), JSON.stringify(meta, null, 2));
+    await fs.copyFile("parceiro.html", path.join(dir, "index.html"));
+    showroomsMeta.push({ nome, slug, total: prods.length, cor });
+    console.log(`  Showroom: ${nome} (${prods.length} produtos${cor?`, cor ${cor}`:''}${logoLocal?', logo ok':''}${bannerLocal?', banner ok':''})`);
+  }
+  await fs.writeFile(path.join(DIST, "showrooms.json"), JSON.stringify(showroomsMeta, null, 2));
+
+  console.log(`\nPronto. ${produtos.length} produtos, ${categorias.length} categorias, ${showroomsMeta.length} showrooms -> /dist`);
 }
 
 main().catch((e) => { console.error("\nERRO:", e.message); process.exit(1); });
