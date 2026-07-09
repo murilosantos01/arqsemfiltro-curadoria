@@ -7,144 +7,229 @@
 <meta name="description" content="Showroom curatorial arq.semfiltro.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;800;900&family=Archivo+Expanded:wght@600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Archivo+Expanded:wght@500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --ink:#0A0A0A;--ink-soft:#4A4A4A;--paper:#FAFAF7;--paper-2:#F0EFEB;
-  --line:#E2DFD8;--signal:#F2B705;--white:#FFF;
-  --brand:#0A0A0A; /* sobrescrita via JS quando showroomCor existir */
+  /* Paleta arq.semfiltro */
+  --ink:#17150F;              /* preto quente da marca */
+  --ink-warm:#1F1D15;          /* bege quase preto — Ato 1 */
+  --ink-deep:#0B0A07;          /* preto profundo — Ato 2 */
+  --paper:#F1EFE9;             /* bege claro base */
+  --paper-warm:#E8E4D6;         /* bege quente sutil */
+  --line:#C9C4B6;
+  --signal:#F2B705;
+  --signal-deep:#D89B00;
+  --white:#FCFBF7;
+  --off-white:#EFEBE0;
+  /* cor do parceiro — sobrescrita via JS quando existir */
+  --brand:#EE7D2C;
+  /* versão dessaturada da cor da marca (fundo do Ato 3) */
+  --brand-tint:rgba(238,125,44,.08);
+  --brand-tint-strong:rgba(238,125,44,.18);
   --r:2px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.5;overflow-x:hidden}
 img{display:block;max-width:100%}
-.wrap{max-width:1200px;margin:0 auto;padding:0 32px}
+.wrap{max-width:1240px;margin:0 auto;padding:0 32px}
 
-/* ===== TOPBAR MINIMAL — arq.semfiltro sempre presente ===== */
-.topbar{background:transparent;position:absolute;top:0;left:0;right:0;z-index:50;padding-top:24px}
+/* ===== TOPBAR — sobreposta ao Ato 1 (fundo escuro) ===== */
+.topbar{position:absolute;top:0;left:0;right:0;z-index:60;padding-top:26px;background:transparent}
 .topbar .wrap{display:flex;align-items:center;justify-content:space-between}
-.brand{font-family:'Archivo',sans-serif;font-weight:900;font-size:18px;letter-spacing:-.02em;text-decoration:none;color:var(--ink);opacity:.75;transition:opacity .2s}
+.brand{font-family:'Archivo',sans-serif;font-weight:900;font-size:18px;letter-spacing:-.02em;text-decoration:none;color:var(--off-white);opacity:.85;transition:opacity .2s}
 .brand:hover{opacity:1}
-.brand span{color:#B8860B}
-.back-link{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;color:var(--ink);opacity:.55;text-transform:uppercase;text-decoration:none;transition:opacity .2s}
+.brand span{color:var(--signal)}
+.back-link{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;color:var(--off-white);opacity:.6;text-transform:uppercase;text-decoration:none;transition:opacity .2s}
 .back-link:hover{opacity:1}
-.back-link::before{content:"←  ";}
+.back-link::before{content:"←  "}
 
-/* ===== HERO MANIFESTO — TIPO APPLE ===== */
-.hero{padding:180px 32px 100px;position:relative;text-align:center}
-.hero-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:28px;opacity:.85}
-.hero-eyebrow .dot{display:inline-block;width:8px;height:8px;background:var(--brand);border-radius:50%;margin:0 12px 2px;vertical-align:middle}
+/* ============================================================
+   ATO 1 — ABERTURA (bege escuro, revista, alto contraste)
+   ============================================================ */
+.act1{background:var(--ink-warm);color:var(--off-white);position:relative;overflow:hidden;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:140px 32px 100px}
+/* granulado sutil — dá textura de papel escuro */
+.act1::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%,rgba(255,255,255,.03) 1px,transparent 1px),radial-gradient(circle at 70% 60%,rgba(255,255,255,.02) 1px,transparent 1px);background-size:24px 24px,32px 32px;pointer-events:none;opacity:.6}
+/* linha decorativa no topo (linguagem prancha) */
+.act1::after{content:"";position:absolute;top:0;left:0;right:0;height:6px;background:linear-gradient(90deg,var(--brand) 0%,var(--brand) 30%,transparent 30%)}
+.act1 .wrap{text-align:center;position:relative;z-index:2;max-width:1000px}
 
-/* Logo do parceiro grande em cima do nome (se tiver) OU texto tipográfico */
-.brand-mark{margin-bottom:36px;display:flex;justify-content:center;align-items:center;min-height:60px}
-.brand-mark img{max-height:56px;max-width:280px;object-fit:contain}
-.brand-mark .name-fallback{font-family:'Archivo Expanded','Archivo',sans-serif;font-weight:900;font-size:clamp(32px,5vw,52px);letter-spacing:-.03em;color:var(--brand);line-height:1}
+/* Eyebrow no topo */
+.act1-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--off-white);opacity:.5;margin-bottom:56px;display:inline-flex;align-items:center;gap:14px}
+.act1-eyebrow .sep{display:inline-block;width:6px;height:6px;background:var(--brand);border-radius:50%;opacity:.9}
 
-/* Manifesto — o texto principal */
-.hero-manifesto{font-family:'Archivo',sans-serif;font-weight:600;font-size:clamp(24px,3.4vw,42px);line-height:1.18;letter-spacing:-.02em;color:var(--ink);max-width:22ch;margin:0 auto 40px;text-wrap:balance}
-.hero-manifesto em{font-style:normal;color:var(--brand);font-weight:700}
+/* Logo do parceiro — GRANDE e centralizado */
+.brand-mark{margin-bottom:64px;display:flex;justify-content:center;align-items:center;min-height:130px;filter:brightness(0) invert(1);opacity:.95}
+.brand-mark img{max-height:130px;max-width:420px;width:auto;object-fit:contain}
+/* Fallback tipográfico quando não tem logo */
+.brand-mark.no-logo{filter:none;opacity:1}
+.brand-mark .name-fallback{font-family:'Archivo Expanded','Archivo',sans-serif;font-weight:800;font-size:clamp(48px,7vw,84px);letter-spacing:-.035em;line-height:1;color:var(--off-white)}
+.brand-mark .name-fallback .dot{color:var(--brand)}
 
-/* Assinatura embaixo */
-.hero-sig{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);opacity:.7;display:inline-flex;align-items:center;gap:10px}
-.hero-sig::before,.hero-sig::after{content:"";width:24px;height:1px;background:var(--ink-soft);opacity:.5}
+/* Manifesto — a estrela do ato */
+.act1-manifesto{font-family:'Archivo Expanded','Archivo',sans-serif;font-weight:500;font-size:clamp(28px,3.6vw,48px);line-height:1.15;letter-spacing:-.028em;color:var(--off-white);max-width:24ch;margin:0 auto 56px;text-wrap:balance}
+.act1-manifesto em{font-style:normal;color:var(--brand);font-weight:700}
 
-/* ===== BANNER WIDE 100% ===== */
-.banner{width:100vw;position:relative;left:50%;right:50%;margin-left:-50vw;margin-right:-50vw;margin-bottom:100px;overflow:hidden;background:var(--paper-2)}
-.banner-wrap{aspect-ratio:21/9;position:relative;background:var(--paper-2);display:flex;align-items:center;justify-content:center}
-@media(max-width:640px){.banner-wrap{aspect-ratio:4/3}}
-.banner img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
-.banner .no-banner{text-align:center;padding:60px 20px}
-.banner .no-banner-lbl{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);opacity:.6;margin-bottom:14px}
-.banner .no-banner-msg{font-family:'Archivo',sans-serif;font-weight:600;font-size:18px;color:var(--ink);opacity:.85;max-width:32ch;margin:0 auto}
+/* Assinatura embaixo — mais elegante */
+.act1-sig{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--off-white);opacity:.45;display:inline-flex;align-items:center;gap:14px}
+.act1-sig::before,.act1-sig::after{content:"";width:32px;height:1px;background:var(--off-white);opacity:.5}
 
-/* ===== SEÇÃO PRODUTOS ===== */
-.produtos-sec{padding:0 0 100px}
-.produtos-head{margin-bottom:56px;text-align:center}
-.produtos-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:18px;opacity:.75}
-.produtos-title{font-family:'Archivo Expanded','Archivo',sans-serif;font-weight:800;font-size:clamp(32px,4.5vw,52px);line-height:1.05;letter-spacing:-.03em;color:var(--ink);margin-bottom:16px}
-.produtos-sub{font-family:'Inter',sans-serif;font-size:16px;color:var(--ink-soft);max-width:44ch;margin:0 auto;line-height:1.55}
+/* Scroll indicator sutil embaixo */
+.scroll-hint{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:var(--off-white);opacity:.35;display:flex;flex-direction:column;align-items:center;gap:10px;animation:hint 2s ease-in-out infinite}
+.scroll-hint::after{content:"";width:1px;height:32px;background:var(--off-white)}
+@keyframes hint{0%,100%{opacity:.25;transform:translate(-50%,0)}50%{opacity:.55;transform:translate(-50%,6px)}}
 
-/* Grid PREMIUM — espaço, respiro, sem bordas duras */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:40px}
+/* ============================================================
+   ATO 2 — BANNER CINEMATOGRÁFICO (preto profundo, full-bleed)
+   ============================================================ */
+.act2{background:var(--ink-deep);position:relative;overflow:hidden}
+.banner-frame{aspect-ratio:21/9;position:relative;overflow:hidden;background:radial-gradient(ellipse at 30% 40%,var(--brand-tint-strong) 0%,transparent 60%),var(--ink-deep)}
+.banner-frame img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+/* Placeholder cinematográfico quando não tem banner */
+.banner-frame .no-banner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px}
+.banner-frame .no-banner::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent 0 40px,rgba(255,255,255,.015) 40px 41px);pointer-events:none}
+.banner-frame .no-banner-mono{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--off-white);opacity:.35;margin-bottom:18px;position:relative}
+.banner-frame .no-banner-title{font-family:'Archivo Expanded','Archivo',sans-serif;font-weight:600;font-size:clamp(22px,3vw,36px);letter-spacing:-.02em;color:var(--off-white);opacity:.8;max-width:26ch;line-height:1.15;position:relative}
+/* Vinheta escura nos cantos pra cinematografia */
+.banner-frame::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,.35) 100%);pointer-events:none}
+
+/* ============================================================
+   ATO 3 — ESCOLHIDOS A DEDO (bege quente com fundo da marca sutil)
+   ============================================================ */
+.act3{background:var(--paper-warm);position:relative;padding:120px 0;overflow:hidden}
+/* fundo sutil da cor da marca */
+.act3::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 20% 20%,var(--brand-tint) 0%,transparent 50%),radial-gradient(ellipse at 80% 80%,var(--brand-tint) 0%,transparent 50%);pointer-events:none}
+.act3 .wrap{position:relative;z-index:2}
+
+.act3-head{text-align:center;margin-bottom:80px}
+.act3-tag{display:inline-flex;align-items:center;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--brand);background:var(--white);border:1.5px solid var(--brand);padding:9px 18px;margin-bottom:32px;border-radius:100px}
+.act3-tag .dot{width:6px;height:6px;background:var(--brand);border-radius:50%;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
+.act3-title{font-family:'Archivo Expanded','Archivo',sans-serif;font-weight:700;font-size:clamp(38px,5vw,64px);line-height:1.05;letter-spacing:-.032em;color:var(--ink);margin-bottom:22px;max-width:16ch;margin-left:auto;margin-right:auto}
+.act3-title em{font-style:normal;color:var(--brand)}
+.act3-sub{font-family:'Inter',sans-serif;font-size:17px;color:var(--ink-soft, #4A4A4A);max-width:50ch;margin:0 auto;line-height:1.55;opacity:.85}
+
+/* Grid de escolhidos — só 3 cards GRANDES */
+.grid-hero{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:32px;margin-bottom:0}
+@media(min-width:960px){.grid-hero{grid-template-columns:repeat(3,1fr)}}
+.card-hero{background:transparent;cursor:pointer;transition:transform .5s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column}
+.card-hero:hover{transform:translateY(-8px)}
+.card-hero .card-img{aspect-ratio:4/5;background:var(--white);position:relative;overflow:hidden;margin-bottom:24px;border-radius:2px;box-shadow:0 20px 60px rgba(23,21,15,.08)}
+.card-hero .card-img img{width:100%;height:100%;object-fit:contain;padding:32px;position:absolute;inset:0;transition:transform 20s ease-out}
+.card-hero:hover .card-img img{transform:scale(1.08)}
+.card-hero .card-badges{position:absolute;top:16px;left:16px;display:flex;gap:6px;z-index:3}
+.card-hero .badge-hero{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--brand);background:var(--white);padding:5px 10px;border-radius:100px;box-shadow:0 4px 12px rgba(0,0,0,.06)}
+.card-hero .badge-desconto{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.06em;color:#fff;background:var(--brand);padding:5px 10px;border-radius:100px}
+.card-hero h3{font-family:'Archivo',sans-serif;font-weight:600;font-size:20px;line-height:1.25;letter-spacing:-.015em;color:var(--ink);margin-bottom:8px;padding:0 4px}
+.card-hero .cdesc{font-size:14px;color:var(--ink-soft, #4A4A4A);line-height:1.55;margin-bottom:16px;padding:0 4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.card-hero .cbtn{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--brand);display:inline-flex;align-items:center;gap:6px;text-decoration:none;transition:gap .2s;padding:0 4px}
+.card-hero:hover .cbtn{gap:12px}
+
+/* ============================================================
+   ATO 4 — CURADORIA COMPLETA (bege claro base)
+   ============================================================ */
+.act4{background:var(--paper);padding:120px 0}
+.act4-head{margin-bottom:56px}
+.act4-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--ink);opacity:.5;margin-bottom:16px;display:inline-flex;align-items:center;gap:12px}
+.act4-eyebrow::before{content:"";width:32px;height:1.5px;background:var(--ink)}
+.act4-title{font-family:'Archivo Expanded','Archivo',sans-serif;font-weight:700;font-size:clamp(32px,4vw,48px);line-height:1.05;letter-spacing:-.028em;color:var(--ink);max-width:18ch}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:40px}
 .card{background:transparent;cursor:pointer;transition:transform .3s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column}
 .card:hover{transform:translateY(-4px)}
-
-.card-img{aspect-ratio:1/1;background:var(--paper-2);position:relative;overflow:hidden;margin-bottom:20px;border-radius:6px}
-.card-img img{width:100%;height:100%;object-fit:contain;padding:20px;position:absolute;inset:0;transition:transform .5s cubic-bezier(.16,1,.3,1)}
+.card .card-img{aspect-ratio:1/1;background:var(--white);position:relative;overflow:hidden;margin-bottom:20px;border-radius:2px}
+.card .card-img img{width:100%;height:100%;object-fit:contain;padding:20px;position:absolute;inset:0;transition:transform .5s cubic-bezier(.16,1,.3,1)}
 .card:hover .card-img img{transform:scale(1.04)}
-.card-img .ph{font-family:'IBM Plex Mono',monospace;font-size:10px;color:#B0AB9E;text-transform:uppercase;letter-spacing:.14em;position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
-/* Badges: só desconto e badge custom, discretos */
-.card-badges{position:absolute;top:14px;left:14px;display:flex;gap:6px;z-index:3}
-.badge-desconto{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.06em;color:#fff;background:var(--brand);padding:5px 10px;border-radius:20px;white-space:nowrap}
-.badge-emoji{position:absolute;top:12px;right:14px;font-size:22px;line-height:1;filter:drop-shadow(0 2px 4px rgba(0,0,0,.15));z-index:3}
-
-.card-body{padding:0 4px}
-.card h3{font-family:'Archivo',sans-serif;font-weight:700;font-size:18px;line-height:1.25;letter-spacing:-.015em;color:var(--ink);margin-bottom:6px}
-.card .cdesc{font-size:13px;color:var(--ink-soft);line-height:1.55;margin-bottom:14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.card .cbtn{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--brand);display:inline-flex;align-items:center;gap:6px;text-decoration:none;transition:gap .2s}
-.card .cbtn:hover{gap:10px}
-.card .cbtn .arr{transition:transform .2s}
-
-/* Cupom no card (discreto no rodapé) */
+.card .card-badges{position:absolute;top:14px;left:14px;display:flex;gap:6px;z-index:3}
+.card .badge-desconto{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.06em;color:#fff;background:var(--brand);padding:4px 9px;border-radius:100px;white-space:nowrap}
+.card .badge-emoji{position:absolute;top:12px;right:14px;font-size:22px;line-height:1;filter:drop-shadow(0 2px 4px rgba(0,0,0,.15));z-index:3}
+.card h3{font-family:'Archivo',sans-serif;font-weight:600;font-size:18px;line-height:1.25;letter-spacing:-.015em;color:var(--ink);margin-bottom:6px}
+.card .cdesc{font-size:13px;color:var(--ink-soft, #4A4A4A);line-height:1.55;margin-bottom:14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.card .cbtn{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--brand);display:inline-flex;align-items:center;gap:6px;text-decoration:none;transition:gap .2s}
+.card:hover .cbtn{gap:10px}
 .card-cupom{margin-top:12px;padding-top:12px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:8px}
 .card-cupom-code{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--brand)}
-.card-cupom-lbl{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);opacity:.7}
+.card-cupom-lbl{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);opacity:.5}
 
-/* ===== MODAL PRODUTO (mesmo estilo do site) ===== */
-.modal-bg{position:fixed;inset:0;background:rgba(10,10,10,.7);backdrop-filter:blur(6px);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .25s}
+/* ============================================================
+   ATO 5 — FECHAMENTO (bege escuro, assinatura)
+   ============================================================ */
+.act5{background:var(--ink-warm);color:var(--off-white);padding:80px 0 48px;text-align:center}
+.act5-sig{font-family:'Archivo Expanded','Archivo',sans-serif;font-weight:500;font-size:clamp(24px,3vw,36px);line-height:1.2;letter-spacing:-.02em;color:var(--off-white);max-width:24ch;margin:0 auto 40px;text-wrap:balance;opacity:.9}
+.act5-sig em{font-style:normal;color:var(--brand);font-weight:700}
+.act5-mark{font-family:'Archivo',sans-serif;font-weight:900;font-size:22px;letter-spacing:-.02em;color:var(--off-white);opacity:.85;text-decoration:none;display:inline-block;margin-bottom:32px}
+.act5-mark span{color:var(--signal)}
+.act5-disc{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--off-white);letter-spacing:.06em;line-height:1.7;max-width:56ch;margin:0 auto;opacity:.4}
+
+/* ===== MODAL PRODUTO ===== */
+.modal-bg{position:fixed;inset:0;background:rgba(11,10,7,.75);backdrop-filter:blur(8px);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s}
 .modal-bg.open{opacity:1;pointer-events:all}
-.modal{background:var(--white);border-radius:12px;max-width:820px;width:100%;max-height:90vh;overflow:hidden;position:relative;display:grid;grid-template-columns:1fr;transform:translateY(20px) scale(.98);transition:transform .35s cubic-bezier(.16,1,.3,1);box-shadow:0 40px 100px rgba(0,0,0,.3)}
+.modal{background:var(--white);border-radius:12px;max-width:860px;width:100%;max-height:88vh;overflow:hidden;position:relative;display:grid;grid-template-columns:1fr;transform:translateY(24px) scale(.97);transition:transform .4s cubic-bezier(.16,1,.3,1);box-shadow:0 40px 100px rgba(0,0,0,.35)}
 @media(min-width:640px){.modal{grid-template-columns:1.1fr 1fr;max-height:82vh}}
 .modal-bg.open .modal{transform:translateY(0) scale(1)}
-.mgal{background:var(--paper-2);position:relative;overflow:hidden;min-height:280px;display:flex;align-items:center;justify-content:center}
-.mgal img{width:100%;height:100%;object-fit:contain;padding:32px;position:absolute;inset:0}
+.mgal{background:var(--paper-2, var(--paper-warm));position:relative;overflow:hidden;min-height:280px;display:flex;align-items:center;justify-content:center}
+.mgal img{width:100%;height:100%;object-fit:contain;padding:36px;position:absolute;inset:0}
 .mgal .ph{font-family:'IBM Plex Mono',monospace;font-size:11px;color:#B0AB9E;text-transform:uppercase;letter-spacing:.14em}
-.mbody{padding:44px 40px;display:flex;flex-direction:column;overflow-y:auto}
-.mloja{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.18em;color:var(--ink-soft);text-transform:uppercase;margin-bottom:14px;opacity:.75}
-.modal h2{font-family:'Archivo',sans-serif;font-weight:700;font-size:26px;line-height:1.15;letter-spacing:-.02em;margin-bottom:18px}
-.mdesc{font-size:15px;color:var(--ink-soft);margin-bottom:22px;line-height:1.65;flex:1}
-.mcupom{background:var(--paper-2);border-radius:8px;padding:16px 18px;margin-bottom:22px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+.mbody{padding:48px 42px;display:flex;flex-direction:column;overflow-y:auto}
+.mloja{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.2em;color:var(--ink);opacity:.55;text-transform:uppercase;margin-bottom:14px}
+.modal h2{font-family:'Archivo',sans-serif;font-weight:700;font-size:28px;line-height:1.15;letter-spacing:-.02em;margin-bottom:20px}
+.mdesc{font-size:15px;color:var(--ink);opacity:.75;margin-bottom:24px;line-height:1.65;flex:1}
+.mcupom{background:var(--paper);border-radius:8px;padding:16px 18px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;gap:14px}
 .mcupom-l{display:flex;flex-direction:column;gap:3px}
-.mcupom-lbl{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft)}
-.mcupom-code{font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:700;letter-spacing:.1em;color:var(--ink)}
-.mcupom-copy{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;background:var(--ink);color:var(--white);border:none;padding:9px 14px;cursor:pointer;border-radius:6px;transition:opacity .2s}
+.mcupom-lbl{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);opacity:.6}
+.mcupom-code{font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:700;letter-spacing:.12em;color:var(--ink)}
+.mcupom-copy{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;background:var(--ink);color:var(--white);border:none;padding:10px 16px;cursor:pointer;border-radius:6px;transition:opacity .2s}
 .mcupom-copy:hover{opacity:.85}
 .mcupom-copy.copied{background:#16a34a}
-.mbtn{display:inline-flex;align-items:center;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;background:var(--brand);color:var(--white);padding:16px 24px;border-radius:8px;transition:transform .2s,box-shadow .2s;width:fit-content}
-.mbtn:hover{transform:translateY(-2px);box-shadow:0 12px 24px rgba(0,0,0,.15)}
-.modal-close{position:absolute;top:16px;right:16px;width:36px;height:36px;background:rgba(255,255,255,.9);border:none;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;border-radius:50%;transition:background .2s}
-.modal-close:hover{background:var(--ink);color:var(--white)}
+.mbtn{display:inline-flex;align-items:center;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;background:var(--brand);color:var(--white);padding:18px 28px;border-radius:8px;transition:transform .2s,box-shadow .2s;width:fit-content}
+.mbtn:hover{transform:translateY(-2px);box-shadow:0 16px 32px rgba(0,0,0,.18)}
+.modal-close{position:absolute;top:18px;right:18px;width:38px;height:38px;background:rgba(255,255,255,.95);border:none;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;border-radius:50%;transition:background .2s,transform .2s}
+.modal-close:hover{background:var(--ink);color:var(--white);transform:rotate(90deg)}
 
-/* ===== FOOTER MINIMAL ===== */
-footer{border-top:1px solid var(--line);padding:36px 0;margin-top:60px}
-footer .wrap{display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between;align-items:center}
-footer .brand{opacity:.7}
-footer .disc{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink-soft);letter-spacing:.06em;line-height:1.7;max-width:52ch;opacity:.7}
+/* ===== ENTRADA COM FADE + SLIDE (JS liga a classe) ===== */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+.reveal.on{opacity:1;transform:translateY(0)}
+.reveal.d1{transition-delay:.08s}
+.reveal.d2{transition-delay:.16s}
+.reveal.d3{transition-delay:.24s}
 
 /* ===== MOBILE ===== */
 @media(max-width:640px){
   .wrap{padding:0 20px}
   .topbar{padding-top:18px}
-  .hero{padding:120px 20px 70px}
-  .brand-mark{margin-bottom:28px}
-  .brand-mark img{max-height:42px}
-  .hero-manifesto{font-size:22px;max-width:20ch;margin-bottom:28px}
-  .produtos-sec{padding:0 0 70px}
-  .produtos-head{margin-bottom:36px}
+  .act1{padding:100px 20px 80px;min-height:88vh}
+  .act1-eyebrow{margin-bottom:36px;font-size:10px;letter-spacing:.22em}
+  .brand-mark{margin-bottom:40px;min-height:80px}
+  .brand-mark img{max-height:80px;max-width:70vw}
+  .brand-mark .name-fallback{font-size:44px}
+  .act1-manifesto{font-size:22px;max-width:20ch;margin-bottom:36px}
+  .scroll-hint{display:none}
+  .act3{padding:70px 0}
+  .act3-head{margin-bottom:48px}
+  .act3-title{font-size:32px}
+  .act3-sub{font-size:15px}
+  .grid-hero{grid-template-columns:1fr;gap:36px}
+  .card-hero .card-img{aspect-ratio:1/1;margin-bottom:16px}
+  .card-hero .card-img img{padding:24px}
+  .act4{padding:70px 0}
+  .act4-title{font-size:28px}
   .grid{grid-template-columns:repeat(2,1fr);gap:20px}
-  .card-img{margin-bottom:12px}
-  .card-img img{padding:12px}
+  .card .card-img{margin-bottom:12px}
+  .card .card-img img{padding:14px}
   .card h3{font-size:14px}
-  .card .cdesc{font-size:12px;-webkit-line-clamp:2}
+  .card .cdesc{font-size:12px}
   .card .cbtn{font-size:10px}
+  .act5{padding:60px 0 36px}
+  .act5-sig{font-size:20px}
   .modal{grid-template-columns:1fr;max-height:92vh}
-  .mbody{padding:28px 24px}
+  .mbody{padding:32px 26px}
   .modal h2{font-size:22px}
-  .banner{margin-bottom:70px}
 }
 
-@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+@media(prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important;scroll-behavior:auto!important}
+  .reveal{opacity:1;transform:none}
+}
 </style>
 </head>
 <body>
@@ -156,42 +241,62 @@ footer .disc{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--in
   </div>
 </header>
 
-<!-- HERO MANIFESTO -->
-<section class="hero">
-  <div class="hero-eyebrow"><span>Showroom Curatorial</span><span class="dot"></span><span id="heroBrand">Parceiro</span></div>
-  <div class="brand-mark" id="brandMark"></div>
-  <h1 class="hero-manifesto" id="heroManifesto"></h1>
-  <div class="hero-sig">Curadoria arq.semfiltro</div>
+<!-- ATO 1 — ABERTURA -->
+<section class="act1">
+  <div class="wrap">
+    <div class="act1-eyebrow reveal">
+      <span>Showroom curatorial</span>
+      <span class="sep"></span>
+      <span id="heroBrand">Parceiro</span>
+    </div>
+    <div class="brand-mark reveal d1" id="brandMark"></div>
+    <h1 class="act1-manifesto reveal d2" id="heroManifesto"></h1>
+    <div class="act1-sig reveal d3">Curadoria arq.semfiltro</div>
+  </div>
+  <div class="scroll-hint">Role</div>
 </section>
 
-<!-- BANNER GRANDE WIDE -->
-<div class="banner" id="banner">
-  <div class="banner-wrap" id="bannerWrap">
+<!-- ATO 2 — BANNER -->
+<section class="act2">
+  <div class="banner-frame" id="bannerFrame">
     <div class="no-banner">
-      <div class="no-banner-lbl">Banner do parceiro</div>
-      <div class="no-banner-msg">Envie uma imagem em <b>Showroom Banner</b> no Notion (proporção 21:9 recomendada).</div>
+      <div class="no-banner-mono">Banner do parceiro</div>
+      <div class="no-banner-title">A cena principal desta parceria aparece aqui.</div>
     </div>
   </div>
-</div>
+</section>
 
-<!-- PRODUTOS -->
-<section class="produtos-sec">
+<!-- ATO 3 — ESCOLHIDOS A DEDO (aparece só se tiver 3+ produtos) -->
+<section class="act3" id="act3" hidden>
   <div class="wrap">
-    <div class="produtos-head">
-      <div class="produtos-eyebrow">Curadoria</div>
-      <h2 class="produtos-title" id="produtosTitle">Produtos aprovados</h2>
-      <p class="produtos-sub" id="produtosSub">Peças escolhidas a dedo pelo arq.semfiltro para transformar espaço comercial em máquina de venda.</p>
+    <div class="act3-head reveal">
+      <div class="act3-tag"><span class="dot"></span>Novidade curada</div>
+      <h2 class="act3-title" id="act3Title">Escolhidos a <em>dedo</em></h2>
+      <p class="act3-sub" id="act3Sub">Três peças que a curadoria arq.semfiltro colocaria no próprio projeto antes de tudo.</p>
+    </div>
+    <div class="grid-hero" id="gridHero"></div>
+  </div>
+</section>
+
+<!-- ATO 4 — CURADORIA COMPLETA -->
+<section class="act4" id="act4">
+  <div class="wrap">
+    <div class="act4-head reveal">
+      <div class="act4-eyebrow">A curadoria completa</div>
+      <h2 class="act4-title" id="act4Title">Peças aprovadas</h2>
     </div>
     <div class="grid" id="grid"></div>
   </div>
 </section>
 
-<footer>
+<!-- ATO 5 — FECHAMENTO -->
+<section class="act5">
   <div class="wrap">
-    <a href="../../" class="brand">arq<span>.</span>semfiltro</a>
-    <p class="disc">Curadoria patrocinada. Alguns links são de afiliado. Só recomendamos produtos que colocaríamos na própria operação.</p>
+    <p class="act5-sig">Quem entende de <em>espaço</em>, vende mais.</p>
+    <a href="../../" class="act5-mark">arq<span>.</span>semfiltro</a>
+    <p class="act5-disc">Curadoria patrocinada. Alguns links são de afiliado. Só recomendamos produtos que colocaríamos na própria operação.</p>
   </div>
-</footer>
+</section>
 
 <!-- MODAL PRODUTO -->
 <div class="modal-bg" id="modalBg" role="dialog" aria-modal="true">
@@ -213,6 +318,23 @@ const REL='nofollow sponsored noopener';
 const esc=s=>(s||'').replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const isUrl=s=>s&&s.startsWith('http');
 const safeDesc=s=>(s&&!s.startsWith('http'))?s:'';
+
+/* Helper: gera versões dessaturadas da cor da marca para o Ato 3 */
+function hexToRgba(hex, alpha){
+  const h=hex.replace('#','');
+  const bigint=parseInt(h.length===3 ? h.split('').map(c=>c+c).join('') : h, 16);
+  const r=(bigint>>16)&255, g=(bigint>>8)&255, b=bigint&255;
+  return `rgba(${r},${g},${b},${alpha})`;
+}
+
+/* Copy */
+function copyText(text,btn){
+  const orig=btn.textContent;
+  const done=()=>{btn.textContent='Copiado';btn.classList.add('copied');setTimeout(()=>{btn.textContent=orig;btn.classList.remove('copied')},2000)};
+  navigator.clipboard?.writeText(text).then(done).catch(()=>{
+    const t=document.createElement('textarea');t.value=text;document.body.appendChild(t);t.select();document.execCommand('copy');document.body.removeChild(t);done();
+  });
+}
 
 /* Modal Produto */
 function openModal(p){
@@ -238,79 +360,128 @@ document.getElementById('modalClose').addEventListener('click',closeModal);
 document.getElementById('modalBg').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal()});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
 
-function copyText(text,btn){
-  const orig=btn.textContent;
-  const done=()=>{btn.textContent='Copiado';btn.classList.add('copied');setTimeout(()=>{btn.textContent=orig;btn.classList.remove('copied')},2000)};
-  navigator.clipboard?.writeText(text).then(done).catch(()=>{
-    const t=document.createElement('textarea');t.value=text;document.body.appendChild(t);t.select();document.execCommand('copy');document.body.removeChild(t);done();
-  });
+/* CARD tamanho hero (Ato 3) */
+function makeCardHero(p, badgeText){
+  const el=document.createElement('article');
+  el.className='card-hero reveal';
+  const img=p.imagem?`<img src="${esc(p.imagem)}" alt="${esc(p.nome)}" loading="lazy">`:'<span class="ph">[ sem foto ]</span>';
+  const badges=[];
+  badges.push(`<span class="badge-hero">${badgeText||'Escolhido'}</span>`);
+  if(p.desconto)badges.push(`<span class="badge-desconto">${esc(p.desconto)} OFF</span>`);
+  el.innerHTML=`
+    <div class="card-img">
+      <div class="card-badges">${badges.join('')}</div>
+      ${img}
+    </div>
+    <h3>${esc(p.nome)}</h3>
+    <p class="cdesc">${esc(safeDesc(p.descricao))}</p>
+    <span class="cbtn">Ver detalhes →</span>
+  `;
+  el.addEventListener('click',()=>openModal(p));
+  return el;
 }
 
-/* CARDS PREMIUM — sem review, sem estrela */
+/* CARD tamanho normal (Ato 4) */
 function makeCard(p){
   const el=document.createElement('article');
-  el.className='card';
+  el.className='card reveal';
   const img=p.imagem?`<img src="${esc(p.imagem)}" alt="${esc(p.nome)}" loading="lazy">`:'<span class="ph">[ sem foto ]</span>';
   const badges=[];
   if(p.desconto)badges.push(`<div class="card-badges"><span class="badge-desconto">${esc(p.desconto)} OFF</span></div>`);
   if(p.badge)badges.push(`<span class="badge-emoji">${esc(p.badge)}</span>`);
-  const cupomBlock=p.cupom
-    ?`<div class="card-cupom"><span class="card-cupom-code">${esc(p.cupom)}</span><span class="card-cupom-lbl">Cupom</span></div>`
-    :'';
+  const cupomBlock=p.cupom?`<div class="card-cupom"><span class="card-cupom-code">${esc(p.cupom)}</span><span class="card-cupom-lbl">Cupom</span></div>`:'';
   el.innerHTML=`
     <div class="card-img">${badges.join('')}${img}</div>
-    <div class="card-body">
-      <h3>${esc(p.nome)}</h3>
-      <p class="cdesc">${esc(safeDesc(p.descricao))}</p>
-      <span class="cbtn">Ver detalhes <span class="arr">→</span></span>
-      ${cupomBlock}
-    </div>`;
+    <h3>${esc(p.nome)}</h3>
+    <p class="cdesc">${esc(safeDesc(p.descricao))}</p>
+    <span class="cbtn">Ver detalhes →</span>
+    ${cupomBlock}
+  `;
   el.addEventListener('click',()=>openModal(p));
   return el;
+}
+
+/* Scroll reveal com IntersectionObserver */
+function setupReveal(){
+  const els=document.querySelectorAll('.reveal');
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(en=>{
+      if(en.isIntersecting){en.target.classList.add('on');obs.unobserve(en.target)}
+    });
+  },{threshold:.12,rootMargin:'0px 0px -60px 0px'});
+  els.forEach(el=>obs.observe(el));
+}
+
+/* Parallax sutil no banner */
+function setupParallax(){
+  const banner=document.getElementById('bannerFrame');
+  if(!banner)return;
+  window.addEventListener('scroll',()=>{
+    const rect=banner.getBoundingClientRect();
+    if(rect.bottom<0||rect.top>window.innerHeight)return;
+    const img=banner.querySelector('img');
+    if(!img)return;
+    const y=(rect.top-window.innerHeight/2)*.15;
+    img.style.transform=`translateY(${y}px) scale(1.1)`;
+  },{passive:true});
 }
 
 /* RENDER */
 fetch('products.json?v='+Date.now()).then(r=>r.json()).then(data=>{
   document.title=`${data.nome} — Showroom arq.semfiltro`;
 
-  // aplica cor da marca
+  // aplica cor da marca + versões dessaturadas para os fundos
   if(data.cor && /^#[0-9A-Fa-f]{3,8}$/.test(data.cor.trim())){
-    document.documentElement.style.setProperty('--brand', data.cor.trim());
+    const cor=data.cor.trim();
+    document.documentElement.style.setProperty('--brand', cor);
+    document.documentElement.style.setProperty('--brand-tint', hexToRgba(cor, .08));
+    document.documentElement.style.setProperty('--brand-tint-strong', hexToRgba(cor, .22));
   }
 
-  // eyebrow com nome
+  // Ato 1 — nome + logo + manifesto
   document.getElementById('heroBrand').textContent=data.nome;
-
-  // logo (se tiver) ou fallback tipográfico com nome
   const bm=document.getElementById('brandMark');
   if(data.logo){
     bm.innerHTML=`<img src="${esc(data.logo)}" alt="${esc(data.nome)}">`;
   }else{
-    bm.innerHTML=`<span class="name-fallback">${esc(data.nome)}</span>`;
+    bm.classList.add('no-logo');
+    bm.innerHTML=`<span class="name-fallback">${esc(data.nome).replace('&','<span class="dot">&</span>')}</span>`;
   }
-
-  // manifesto
   const hm=document.getElementById('heroManifesto');
-  if(data.manifesto){
-    hm.textContent=data.manifesto;
-  }else{
-    hm.innerHTML=`Uma curadoria feita a dedo, <em>sem filtro</em>, pra quem trata espaço como ferramenta de venda.`;
-  }
+  hm.innerHTML=data.manifesto ? esc(data.manifesto) : `Uma curadoria feita a dedo, <em>sem filtro</em>, pra quem trata espaço como ferramenta de venda.`;
 
-  // banner
-  const bw=document.getElementById('bannerWrap');
+  // Ato 2 — banner
+  const bf=document.getElementById('bannerFrame');
   if(data.banner){
-    bw.innerHTML=`<img src="${esc(data.banner)}" alt="Banner ${esc(data.nome)}">`;
+    bf.innerHTML=`<img src="${esc(data.banner)}" alt="Banner ${esc(data.nome)}">`;
   }
 
-  // título da seção de produtos
-  document.getElementById('produtosTitle').textContent=`${data.total} produtos aprovados`;
-  document.getElementById('produtosSub').textContent=`Peças da ${data.nome} escolhidas pela curadoria arq.semfiltro pra transformar espaço comercial em máquina de venda.`;
+  // Ato 3 — Escolhidos a dedo (só se tiver 3+ produtos)
+  const total=data.produtos.length;
+  const escolhidos=data.produtos.slice(0,3);
+  const resto=data.produtos.slice(3);
 
-  // grid
-  const g=document.getElementById('grid');
-  data.produtos.forEach(p=>g.appendChild(makeCard(p)));
-}).catch((e)=>{console.error(e);document.getElementById('grid').innerHTML='<div style="padding:40px;color:var(--ink-soft);text-align:center;grid-column:1/-1">Erro ao carregar produtos.</div>'});
+  if(escolhidos.length>=3){
+    document.getElementById('act3').hidden=false;
+    document.getElementById('act3Sub').textContent=`Três peças que a curadoria arq.semfiltro escolheu primeiro na parceria com ${data.nome}.`;
+    const gh=document.getElementById('gridHero');
+    escolhidos.forEach(p=>gh.appendChild(makeCardHero(p,'Escolhido')));
+  }
+
+  // Ato 4 — Resto (ou tudo, se não deu pra 3 hero)
+  const catalogo=escolhidos.length>=3 ? resto : data.produtos;
+  const act4=document.getElementById('act4');
+  if(!catalogo.length){
+    act4.hidden=true;
+  }else{
+    document.getElementById('act4Title').textContent=`${catalogo.length} ${catalogo.length===1?'peça aprovada':'peças aprovadas'}`;
+    const g=document.getElementById('grid');
+    catalogo.forEach(p=>g.appendChild(makeCard(p)));
+  }
+
+  setupReveal();
+  setupParallax();
+}).catch((e)=>{console.error(e);document.getElementById('grid').innerHTML='<div style="padding:40px;color:var(--ink);text-align:center;grid-column:1/-1">Erro ao carregar produtos.</div>'});
 </script>
 </body>
 </html>
