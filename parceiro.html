@@ -45,34 +45,58 @@ img{display:block;max-width:100%}
 .back-link::before{content:"←  "}
 
 /* ============================================================
-   ATO 1 — ABERTURA (bege escuro, revista, alto contraste)
+   ATO 1 — ABERTURA (bege escuro, editorial 60/40)
    ============================================================ */
-.act1{background:var(--ink-warm);color:var(--off-white);position:relative;overflow:hidden;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:140px 32px 100px}
+.act1{background:var(--ink-warm);color:var(--off-white);position:relative;overflow:hidden;min-height:100vh;display:flex;align-items:center;padding:120px 32px 100px}
 /* granulado sutil — dá textura de papel escuro */
 .act1::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 20% 30%,rgba(255,255,255,.03) 1px,transparent 1px),radial-gradient(circle at 70% 60%,rgba(255,255,255,.02) 1px,transparent 1px);background-size:24px 24px,32px 32px;pointer-events:none;opacity:.6}
 /* linha decorativa no topo (linguagem prancha) */
 .act1::after{content:"";position:absolute;top:0;left:0;right:0;height:6px;background:linear-gradient(90deg,var(--brand) 0%,var(--brand) 30%,transparent 30%)}
-.act1 .wrap{text-align:center;position:relative;z-index:2;max-width:1000px}
+.act1 .wrap{position:relative;z-index:2;width:100%}
 
-/* Eyebrow no topo */
-.act1-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--off-white);opacity:.5;margin-bottom:56px;display:inline-flex;align-items:center;gap:14px}
-.act1-eyebrow .sep{display:inline-block;width:6px;height:6px;background:var(--brand);border-radius:50%;opacity:.9}
+/* Grid editorial 60/40 — desktop */
+.act1-grid{display:grid;grid-template-columns:1fr;gap:56px;align-items:center;min-height:64vh}
+@media(min-width:900px){
+  .act1-grid{grid-template-columns:1.5fr 1fr;gap:96px}
+}
 
-/* Logo do parceiro — GRANDE e centralizado */
-.brand-mark{margin-bottom:64px;display:flex;justify-content:center;align-items:center;min-height:130px;filter:brightness(0) invert(1);opacity:.95}
-.brand-mark img{max-height:130px;max-width:420px;width:auto;object-fit:contain}
-/* Fallback tipográfico quando não tem logo */
+/* Coluna esquerda — LOGO + contexto */
+.act1-left{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:36px;position:relative}
+/* linha vertical decorativa à esquerda (linguagem prancha) */
+.act1-left::before{content:"";position:absolute;left:-24px;top:8px;bottom:8px;width:1px;background:var(--off-white);opacity:.15;display:none}
+@media(min-width:900px){.act1-left::before{display:block}}
+
+.act1-context{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.26em;text-transform:uppercase;color:var(--off-white);opacity:.5;display:flex;align-items:center;gap:12px}
+.act1-context .num{color:var(--brand);opacity:1;font-weight:700}
+.act1-context .sep{width:24px;height:1px;background:var(--off-white);opacity:.4}
+
+/* Logo do parceiro — ancorado à esquerda */
+.brand-mark{display:flex;justify-content:flex-start;align-items:center;min-height:120px;filter:brightness(0) invert(1);opacity:.95;max-width:100%}
+.brand-mark img{max-height:140px;max-width:100%;width:auto;object-fit:contain;object-position:left center}
 .brand-mark.no-logo{filter:none;opacity:1}
-.brand-mark .name-fallback{font-family:'Archivo Expanded','Archivo',sans-serif;font-weight:800;font-size:clamp(48px,7vw,84px);letter-spacing:-.035em;line-height:1;color:var(--off-white)}
+.brand-mark .name-fallback{font-family:'Archivo Expanded','Archivo',sans-serif;font-weight:800;font-size:clamp(56px,7vw,96px);letter-spacing:-.038em;line-height:.95;color:var(--off-white);text-align:left}
 .brand-mark .name-fallback .dot{color:var(--brand)}
 
-/* Manifesto — a estrela do ato */
-.act1-manifesto{font-family:'Archivo Expanded','Archivo',sans-serif;font-weight:500;font-size:clamp(28px,3.6vw,48px);line-height:1.15;letter-spacing:-.028em;color:var(--off-white);max-width:24ch;margin:0 auto 56px;text-wrap:balance}
+/* Placa embaixo do logo — nome do parceiro em texto pequeno */
+.act1-plate{display:flex;align-items:center;gap:14px;padding-top:24px;border-top:1px solid rgba(255,255,255,.12);width:100%;max-width:420px}
+.act1-plate .plate-num{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.24em;color:var(--brand)}
+.act1-plate .plate-name{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:500;letter-spacing:.24em;text-transform:uppercase;color:var(--off-white);opacity:.7}
+
+/* Coluna direita — MANIFESTO vertical */
+.act1-right{display:flex;flex-direction:column;justify-content:center;gap:32px;position:relative}
+
+.act1-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--brand);display:inline-flex;align-items:center;gap:10px;margin:0}
+.act1-eyebrow::before{content:"";width:24px;height:1px;background:var(--brand)}
+
+/* Manifesto — o coração do ato */
+.act1-manifesto{font-family:'Archivo Expanded','Archivo',sans-serif;font-weight:500;font-size:clamp(24px,2.4vw,36px);line-height:1.2;letter-spacing:-.024em;color:var(--off-white);margin:0;text-align:left;text-wrap:pretty}
 .act1-manifesto em{font-style:normal;color:var(--brand);font-weight:700}
 
-/* Assinatura embaixo — mais elegante */
-.act1-sig{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--off-white);opacity:.45;display:inline-flex;align-items:center;gap:14px}
-.act1-sig::before,.act1-sig::after{content:"";width:32px;height:1px;background:var(--off-white);opacity:.5}
+/* Selo assinatura embaixo */
+.act1-sig{display:inline-flex;align-items:center;gap:12px;padding-top:20px;border-top:1px solid rgba(255,255,255,.12);width:fit-content}
+.act1-sig .sig-mark{font-family:'Archivo',sans-serif;font-weight:900;font-size:16px;letter-spacing:-.015em;color:var(--off-white);opacity:.85}
+.act1-sig .sig-mark span{color:var(--signal)}
+.act1-sig .sig-lbl{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:var(--off-white);opacity:.5}
 
 /* Scroll indicator sutil embaixo */
 .scroll-hint{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:var(--off-white);opacity:.35;display:flex;flex-direction:column;align-items:center;gap:10px;animation:hint 2s ease-in-out infinite}
@@ -197,12 +221,14 @@ img{display:block;max-width:100%}
 @media(max-width:640px){
   .wrap{padding:0 20px}
   .topbar{padding-top:18px}
-  .act1{padding:100px 20px 80px;min-height:88vh}
-  .act1-eyebrow{margin-bottom:36px;font-size:10px;letter-spacing:.22em}
-  .brand-mark{margin-bottom:40px;min-height:80px}
-  .brand-mark img{max-height:80px;max-width:70vw}
-  .brand-mark .name-fallback{font-size:44px}
-  .act1-manifesto{font-size:22px;max-width:20ch;margin-bottom:36px}
+  .act1{padding:100px 20px 80px;min-height:auto}
+  .act1-grid{gap:48px;min-height:auto}
+  .act1-context{font-size:9px;letter-spacing:.22em}
+  .brand-mark{min-height:70px}
+  .brand-mark img{max-height:80px}
+  .brand-mark .name-fallback{font-size:52px}
+  .act1-plate{max-width:100%;padding-top:16px}
+  .act1-manifesto{font-size:22px}
   .scroll-hint{display:none}
   .act3{padding:70px 0}
   .act3-head{margin-bottom:48px}
@@ -244,14 +270,31 @@ img{display:block;max-width:100%}
 <!-- ATO 1 — ABERTURA -->
 <section class="act1">
   <div class="wrap">
-    <div class="act1-eyebrow reveal">
-      <span>Showroom curatorial</span>
-      <span class="sep"></span>
-      <span id="heroBrand">Parceiro</span>
+    <div class="act1-grid">
+      <!-- COLUNA ESQUERDA: contexto + logo + placa -->
+      <div class="act1-left">
+        <div class="act1-context reveal">
+          <span class="num">SW·01</span>
+          <span class="sep"></span>
+          <span>Showroom Curatorial</span>
+        </div>
+        <div class="brand-mark reveal d1" id="brandMark"></div>
+        <div class="act1-plate reveal d2">
+          <span class="plate-num">→</span>
+          <span class="plate-name" id="heroBrand">Parceiro</span>
+        </div>
+      </div>
+
+      <!-- COLUNA DIREITA: manifesto vertical -->
+      <div class="act1-right">
+        <div class="act1-eyebrow reveal d1">Manifesto</div>
+        <h1 class="act1-manifesto reveal d2" id="heroManifesto"></h1>
+        <div class="act1-sig reveal d3">
+          <span class="sig-mark">arq<span>.</span>semfiltro</span>
+          <span class="sig-lbl">Curadoria oficial</span>
+        </div>
+      </div>
     </div>
-    <div class="brand-mark reveal d1" id="brandMark"></div>
-    <h1 class="act1-manifesto reveal d2" id="heroManifesto"></h1>
-    <div class="act1-sig reveal d3">Curadoria arq.semfiltro</div>
   </div>
   <div class="scroll-hint">Role</div>
 </section>
