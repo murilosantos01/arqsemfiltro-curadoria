@@ -35,13 +35,13 @@ img{display:block;max-width:100%}
 .wrap{max-width:1240px;margin:0 auto;padding:0 32px}
 
 /* ===== TOPBAR — sobreposta ao Ato 1 (fundo escuro) ===== */
-.topbar{position:absolute;top:0;left:0;right:0;z-index:60;padding-top:26px;background:transparent}
+.topbar{position:absolute;top:0;left:0;right:0;z-index:60;padding-top:22px;background:transparent}
 .topbar .wrap{display:flex;align-items:center;justify-content:space-between}
-.brand{font-family:'Archivo',sans-serif;font-weight:900;font-size:18px;letter-spacing:-.02em;text-decoration:none;color:var(--off-white);opacity:.85;transition:opacity .2s}
+.brand{font-family:'Archivo',sans-serif;font-weight:900;font-size:15px;letter-spacing:-.02em;text-decoration:none;color:var(--off-white);opacity:.7;transition:opacity .2s}
 .brand:hover{opacity:1}
 .brand span{color:var(--signal)}
-.back-link{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;color:var(--off-white);opacity:.6;text-transform:uppercase;text-decoration:none;transition:opacity .2s}
-.back-link:hover{opacity:1}
+.back-link{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.18em;color:var(--off-white);opacity:.45;text-transform:uppercase;text-decoration:none;transition:opacity .2s}
+.back-link:hover{opacity:.9}
 .back-link::before{content:"←  "}
 
 /* ============================================================
@@ -80,15 +80,16 @@ img{display:block;max-width:100%}
 @media(min-width:900px){.act1-content{order:2;padding:100px 72px 80px 64px}}
 @media(min-width:1200px){.act1-content{padding:120px 96px 100px 80px}}
 
-/* Eyebrow acima do logo */
-.act1-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--brand);display:inline-flex;align-items:center;gap:12px;margin-bottom:44px;width:fit-content}
-.act1-eyebrow::before{content:"";width:28px;height:1px;background:var(--brand)}
+/* Eyebrow acima do logo (com número da folha integrado) */
+.act1-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--brand);display:inline-flex;align-items:center;gap:14px;margin-bottom:36px;width:fit-content}
+.act1-eyebrow .eb-num{font-weight:700}
+.act1-eyebrow .eb-sep{width:24px;height:1px;background:var(--brand);opacity:.7}
 
 /* Logo do parceiro — grande, ancorado à esquerda */
-.brand-mark{margin-bottom:44px;display:flex;justify-content:flex-start;align-items:center;min-height:100px;filter:brightness(0) invert(1);opacity:.95}
-.brand-mark img{max-height:110px;max-width:100%;width:auto;object-fit:contain;object-position:left center}
+.brand-mark{margin-bottom:44px;display:flex;justify-content:flex-start;align-items:center;min-height:160px;filter:brightness(0) invert(1);opacity:.95}
+.brand-mark img{max-height:180px;max-width:100%;width:auto;object-fit:contain;object-position:left center}
 .brand-mark.no-logo{filter:none;opacity:1}
-.brand-mark .name-fallback{font-family:'Archivo Expanded','Archivo',sans-serif;font-weight:800;font-size:clamp(48px,5vw,72px);letter-spacing:-.035em;line-height:.95;color:var(--off-white);text-align:left}
+.brand-mark .name-fallback{font-family:'Archivo Expanded','Archivo',sans-serif;font-weight:800;font-size:clamp(56px,6vw,88px);letter-spacing:-.035em;line-height:.95;color:var(--off-white);text-align:left}
 .brand-mark .name-fallback .dot{color:var(--brand)}
 
 /* Manifesto — o coração do ato */
@@ -110,6 +111,8 @@ img{display:block;max-width:100%}
    ATO 2 — BANNER CINEMATOGRÁFICO (preto profundo, full-bleed)
    ============================================================ */
 .act2{background:var(--ink-deep);position:relative;overflow:hidden}
+/* transição sutil do Ato 1 pro Ato 2 — degradê no topo */
+.act2::before{content:"";position:absolute;top:0;left:0;right:0;height:80px;background:linear-gradient(180deg,var(--ink-warm) 0%,transparent 100%);z-index:3;pointer-events:none}
 .banner-frame{aspect-ratio:21/9;position:relative;overflow:hidden;background:radial-gradient(ellipse at 30% 40%,var(--brand-tint-strong) 0%,transparent 60%),var(--ink-deep)}
 .banner-frame img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
 /* Placeholder cinematográfico quando não tem banner */
@@ -123,9 +126,11 @@ img{display:block;max-width:100%}
 /* ============================================================
    ATO 3 — ESCOLHIDOS A DEDO (bege quente com fundo da marca sutil)
    ============================================================ */
-.act3{background:var(--paper-warm);position:relative;padding:120px 0;overflow:hidden}
-/* fundo sutil da cor da marca */
-.act3::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 20% 20%,var(--brand-tint) 0%,transparent 50%),radial-gradient(ellipse at 80% 80%,var(--brand-tint) 0%,transparent 50%);pointer-events:none}
+.act3{background:linear-gradient(180deg, var(--brand-tint) 0%, var(--paper-warm) 100%);position:relative;padding:120px 0;overflow:hidden}
+/* fundo sutil da cor da marca — mais denso, com padrão de textura */
+.act3::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 15% 10%,var(--brand-tint-strong) 0%,transparent 55%),radial-gradient(ellipse at 85% 90%,var(--brand-tint-strong) 0%,transparent 55%),radial-gradient(circle at 50% 50%,var(--brand-tint) 0%,transparent 70%);pointer-events:none;opacity:.85}
+/* linha decorativa no topo separando do banner */
+.act3::after{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent 0%,var(--brand) 50%,transparent 100%);opacity:.4}
 .act3 .wrap{position:relative;z-index:2}
 
 .act3-head{text-align:center;margin-bottom:80px}
@@ -220,6 +225,10 @@ img{display:block;max-width:100%}
 .reveal.d2{transition-delay:.16s}
 .reveal.d3{transition-delay:.24s}
 
+/* Animação premium de entrada das IMAGENS (hero + banner) */
+.img-reveal{opacity:0;transform:scale(1.05);filter:blur(8px);transition:opacity 1.4s cubic-bezier(.16,1,.3,1),transform 1.8s cubic-bezier(.16,1,.3,1),filter 1.2s cubic-bezier(.16,1,.3,1)}
+.img-reveal.on{opacity:1;transform:scale(1);filter:blur(0)}
+
 /* ===== MOBILE ===== */
 @media(max-width:640px){
   .wrap{padding:0 20px}
@@ -230,9 +239,9 @@ img{display:block;max-width:100%}
   .act1-photo-sig{bottom:20px;left:20px;font-size:8px}
   .act1-content{padding:80px 24px 60px}
   .act1-eyebrow{font-size:9px;letter-spacing:.24em;margin-bottom:32px}
-  .brand-mark{margin-bottom:32px;min-height:70px}
-  .brand-mark img{max-height:80px}
-  .brand-mark .name-fallback{font-size:44px}
+  .brand-mark{margin-bottom:32px;min-height:100px}
+  .brand-mark img{max-height:110px}
+  .brand-mark .name-fallback{font-size:52px}
   .act1-manifesto{font-size:20px;margin-bottom:32px}
   .scroll-hint{display:none}
   .act3{padding:70px 0}
@@ -277,10 +286,6 @@ img{display:block;max-width:100%}
   <div class="act1-wrap">
     <!-- IMAGEM GRANDE À ESQUERDA -->
     <div class="act1-photo" id="act1Photo">
-      <div class="act1-photo-tag">
-        <span class="num">SW·01</span>
-        <span>Showroom Curatorial</span>
-      </div>
       <div class="no-img">
         <div class="no-img-lbl">Imagem do showroom</div>
         <div class="no-img-msg">A cena de abertura desta parceria aparece aqui.</div>
@@ -290,12 +295,16 @@ img{display:block;max-width:100%}
 
     <!-- CONTEÚDO EDITORIAL À DIREITA -->
     <div class="act1-content">
-      <div class="act1-eyebrow reveal">Parceria oficial</div>
+      <div class="act1-eyebrow reveal">
+        <span class="eb-num">SW·01</span>
+        <span class="eb-sep"></span>
+        <span>Parceria oficial</span>
+      </div>
       <div class="brand-mark reveal d1" id="brandMark"></div>
       <h1 class="act1-manifesto reveal d2" id="heroManifesto"></h1>
       <div class="act1-sig reveal d3">
         <span class="sig-mark">arq<span>.</span>semfiltro</span>
-        <span class="sig-lbl">Curadoria oficial · <span id="heroBrand">Parceiro</span></span>
+        <span class="sig-lbl">Showroom curatorial · <span id="heroBrand">Parceiro</span></span>
       </div>
       <div class="scroll-hint">Role</div>
     </div>
@@ -499,18 +508,25 @@ fetch('products.json?v='+Date.now()).then(r=>r.json()).then(data=>{
   // Ato 1 — imagem hero (substitui o placeholder se tiver)
   const ap=document.getElementById('act1Photo');
   if(data.hero){
-    const tag=ap.querySelector('.act1-photo-tag');
     const sig=ap.querySelector('.act1-photo-sig');
     ap.querySelector('.no-img').remove();
     const img=document.createElement('img');
     img.src=data.hero;img.alt=data.nome;
-    ap.insertBefore(img, tag);
+    img.className='img-reveal';
+    ap.insertBefore(img, sig);
+    // dispara o reveal quando a imagem carregar
+    img.onload=()=>requestAnimationFrame(()=>img.classList.add('on'));
   }
 
   // Ato 2 — banner
   const bf=document.getElementById('bannerFrame');
   if(data.banner){
-    bf.innerHTML=`<img src="${esc(data.banner)}" alt="Banner ${esc(data.nome)}">`;
+    bf.innerHTML=`<img class="img-reveal" src="${esc(data.banner)}" alt="Banner ${esc(data.nome)}">`;
+    const bImg=bf.querySelector('img');
+    bImg.onload=()=>{
+      // observer separado pro banner disparar quando aparecer
+      new IntersectionObserver((es,o)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');o.unobserve(e.target)}})},{threshold:.2}).observe(bImg);
+    };
   }
 
   // Ato 3 — Escolhidos a dedo (só se tiver 3+ produtos)
