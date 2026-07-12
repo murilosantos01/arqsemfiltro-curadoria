@@ -26,6 +26,36 @@ body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);-we
 .brand span{color:var(--signal-deep)}
 .topbar-meta{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;color:var(--ink-soft);text-transform:uppercase}
 
+/* === MENU SHOWROOMS === */
+.topbar-nav{display:flex;align-items:center;gap:22px}
+.topbar-showrooms{position:relative}
+.topbar-showrooms .sr-trigger{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);background:transparent;border:1.5px solid var(--ink);padding:8px 14px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:background .15s,color .15s}
+.topbar-showrooms .sr-trigger:hover{background:var(--ink);color:var(--signal)}
+.topbar-showrooms .sr-trigger .arr{transition:transform .2s}
+.topbar-showrooms.open .sr-trigger .arr{transform:rotate(180deg)}
+.topbar-showrooms.open .sr-trigger{background:var(--ink);color:var(--signal)}
+.sr-dropdown{position:absolute;top:calc(100% + 8px);right:0;min-width:240px;background:var(--white);border:1.5px solid var(--ink);box-shadow:0 8px 24px rgba(23,21,15,.12);opacity:0;pointer-events:none;transform:translateY(-6px);transition:opacity .2s,transform .2s;z-index:100}
+.topbar-showrooms.open .sr-dropdown{opacity:1;pointer-events:all;transform:translateY(0)}
+.sr-item{display:flex;align-items:center;gap:10px;padding:12px 16px;text-decoration:none;color:var(--ink);border-bottom:1px solid var(--line);transition:background .15s}
+.sr-item:last-child{border-bottom:none}
+.sr-item:hover{background:var(--paper)}
+.sr-item .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.sr-item .name{font-family:'Archivo',sans-serif;font-weight:600;font-size:14px;flex:1}
+.sr-item .count{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink-soft);letter-spacing:.06em}
+
+/* Hambúrguer mobile — só aparece quando tem showrooms */
+.topbar-menu-btn{display:none;background:transparent;border:none;width:32px;height:32px;flex-direction:column;justify-content:center;align-items:center;gap:5px;cursor:pointer;padding:0}
+.topbar-menu-btn span{display:block;width:22px;height:1.5px;background:var(--ink);transition:transform .2s,opacity .2s}
+
+.mobile-panel{position:fixed;top:0;right:0;bottom:0;width:min(320px,80vw);background:var(--white);z-index:150;padding:70px 24px 32px;box-shadow:-8px 0 24px rgba(23,21,15,.15);transform:translateX(100%);transition:transform .3s cubic-bezier(.16,1,.3,1);overflow-y:auto}
+.mobile-panel.open{transform:translateX(0)}
+.mobile-panel-close{position:absolute;top:18px;right:18px;width:34px;height:34px;background:transparent;border:1.5px solid var(--ink);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:background .15s}
+.mobile-panel-close:hover{background:var(--ink);color:var(--white)}
+.mobile-panel-label{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:16px}
+.mobile-panel-content .sr-item{border:1.5px solid var(--line);margin-bottom:8px;padding:14px 16px}
+.mobile-panel-backdrop{position:fixed;inset:0;background:rgba(23,21,15,.4);z-index:140;opacity:0;pointer-events:none;transition:opacity .3s}
+.mobile-panel-backdrop.open{opacity:1;pointer-events:all}
+
 /* HERO */
 .hero{border-bottom:1.5px solid var(--ink);position:relative;overflow:hidden}
 .hero .wrap{padding:64px 28px 56px;position:relative;z-index:2}
@@ -129,11 +159,11 @@ body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);-we
 
 /* CATÁLOGO */
 .catsec{padding:52px 0 8px;scroll-margin-top:130px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:0;border-top:1.5px solid var(--ink);border-left:1.5px solid var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
 
 /* CARD */
-.card{border-right:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);background:var(--white);display:flex;flex-direction:column;cursor:pointer;transition:background .15s;position:relative}
-.card:hover{background:var(--paper)}
+.card{border:1.5px solid var(--ink);background:var(--white);display:flex;flex-direction:column;cursor:pointer;transition:background .15s,transform .2s;position:relative}
+.card:hover{background:var(--paper);transform:translateY(-2px)}
 .card .cimg-wrap{border-bottom:1px solid var(--line)}
 .card .cimg-main{aspect-ratio:4/3;position:relative;overflow:hidden;background:linear-gradient(135deg,var(--paper-2),#DBD7CC);display:flex;align-items:center;justify-content:center}
 .card .cimg-main img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .2s}
@@ -272,6 +302,8 @@ footer a.ig:hover{text-decoration:underline}
   .topbar .wrap{height:54px}
   .brand{font-size:17px}
   .topbar-meta{display:none}
+  .topbar-showrooms{display:none}
+  .topbar-menu-btn.has-showrooms{display:flex!important}
 
   /* hero compacto */
   .hero .wrap{padding:36px 16px 32px}
@@ -341,9 +373,24 @@ footer a.ig:hover{text-decoration:underline}
 <header class="topbar">
   <div class="wrap">
     <a href="#" class="brand">arq<span>.</span>semfiltro</a>
-    <div class="topbar-meta">Curadoria · Espaço Comercial</div>
+    <nav class="topbar-nav">
+      <div class="topbar-showrooms" id="topbarShowrooms" hidden></div>
+      <button class="topbar-menu-btn" id="topbarMenuBtn" aria-label="Menu" hidden>
+        <span></span><span></span><span></span>
+      </button>
+      <div class="topbar-meta">Curadoria · Espaço Comercial</div>
+    </nav>
   </div>
 </header>
+
+<!-- Painel mobile (aparece via botão hambúrguer) -->
+<div class="mobile-panel" id="mobilePanel">
+  <button class="mobile-panel-close" id="mobilePanelClose" aria-label="Fechar">&#x2715;</button>
+  <div class="mobile-panel-content">
+    <div class="mobile-panel-label">Showrooms</div>
+    <div id="mobileShowrooms"></div>
+  </div>
+</div>
 
 <section class="hero">
   <div class="wrap">
@@ -721,6 +768,46 @@ function render(data){
 
   // ---- SCROLL SPY: destaca a categoria ativa na barra ----
   setupScrollSpy();
+  // ---- MENU SHOWROOMS: só aparece se tiver showroom publicado ----
+  setupShowroomsMenu(data.showrooms || []);
+}
+
+function setupShowroomsMenu(showrooms){
+  if(!showrooms.length) return;
+  // ícone da cor de cada showroom
+  const item = s => `<a class="sr-item" href="parceiros/${esc(s.slug)}/">
+    <span class="dot" style="background:${esc(s.cor||'#17150F')}"></span>
+    <span class="name">${esc(s.nome)}</span>
+    <span class="count">${s.total}</span>
+  </a>`;
+
+  // DESKTOP: dropdown ao lado do topbar-meta
+  const wrap = document.getElementById('topbarShowrooms');
+  wrap.hidden = false;
+  wrap.innerHTML = `<button class="sr-trigger" id="srTrigger">Showrooms <span class="arr">▾</span></button>
+    <div class="sr-dropdown">${showrooms.map(item).join('')}</div>`;
+  const trigger = document.getElementById('srTrigger');
+  trigger.addEventListener('click', e => { e.stopPropagation(); wrap.classList.toggle('open'); });
+  document.addEventListener('click', e => { if(!wrap.contains(e.target)) wrap.classList.remove('open'); });
+
+  // MOBILE: painel deslizante
+  const menuBtn = document.getElementById('topbarMenuBtn');
+  menuBtn.hidden = false;
+  menuBtn.classList.add('has-showrooms');
+  const panel = document.getElementById('mobilePanel');
+  const mobList = document.getElementById('mobileShowrooms');
+  mobList.innerHTML = showrooms.map(item).join('');
+
+  // backdrop
+  const bd = document.createElement('div');
+  bd.className = 'mobile-panel-backdrop';
+  document.body.appendChild(bd);
+
+  const openPanel = () => { panel.classList.add('open'); bd.classList.add('open'); document.body.style.overflow = 'hidden'; };
+  const closePanel = () => { panel.classList.remove('open'); bd.classList.remove('open'); document.body.style.overflow = ''; };
+  menuBtn.addEventListener('click', openPanel);
+  document.getElementById('mobilePanelClose').addEventListener('click', closePanel);
+  bd.addEventListener('click', closePanel);
 }
 
 function setupScrollSpy(){

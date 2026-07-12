@@ -27,6 +27,7 @@ const COL = {
   valeapena: "Vale a pena?",
   showroom:  "Showroom",
   showroomOk:"Disponível Showroom",
+  showroomStatus:"Showroom Status",
   showroomCor:"Showroom Cor",
   showroomLogo:"Showroom Logo",
   showroomManifesto:"Showroom Manifesto",
@@ -70,6 +71,7 @@ function readProps(props) {
   const badge     = p(COL.badge)?.rich_text;
   const showroom  = p(COL.showroom)?.select?.name || "";
   const showroomOk= p(COL.showroomOk)?.checkbox || false;
+  const showroomStatus = p(COL.showroomStatus)?.select?.name || "";
   const showroomCor = p(COL.showroomCor)?.rich_text ? txt(p(COL.showroomCor).rich_text) : "";
   const showroomManifesto = p(COL.showroomManifesto)?.rich_text ? txt(p(COL.showroomManifesto).rich_text) : "";
   // Logo e Banner: pega URL do primeiro arquivo (ou null)
@@ -120,7 +122,7 @@ function readProps(props) {
     badge:     badge    ? txt(badge)    : "",
     destaque:  !!destaque,
     nota, pontos, review, valeapena,
-    showroom, showroomOk, showroomCor, showroomManifesto,
+    showroom, showroomOk, showroomStatus, showroomCor, showroomManifesto,
     showroomLogoUrl, showroomBannerUrl, showroomHeroUrl,
     fotoUrls,
   };
@@ -223,6 +225,8 @@ function mockRows() {
     // showroom mock: Tok&Stok nos itens 0,2,4 — mas 4 tem checkbox desligado (não aparece)
     showroom: [0,2,4].includes(i) ? "Tok&Stok" : (i===1 ? "Leroy Merlin" : ""),
     showroomOk: [0,2].includes(i) || i===1,  // item 4 (Tok&Stok) fica de fora
+    // Tok&Stok publicado (aparece no menu), Leroy Merlin rascunho (não aparece)
+    showroomStatus: [0,2,4].includes(i) ? "Publicado" : (i===1 ? "Rascunho" : ""),
     showroomCor: [0,1,2,4].includes(i) ? (i===1 ? "#78BE20" : "#EE7D2C") : "",
     showroomManifesto: i===0 ? "A parceria com a Tok&Stok existe porque poucos entendem que mobiliário residencial bem escolhido resolve varejo comercial pequeno — e essa é a única loja no Brasil que trata cada peça como decisão de design, não só de estoque." : (i===1 ? "O Leroy Merlin entrou pra essa curadoria por um motivo simples: quando o lojista precisa transformar espaço sem obra, é lá que a solução chega no dia seguinte." : ""),
     showroomLogoUrl: null,
@@ -258,7 +262,7 @@ async function main() {
       descricao:r.descricao, loja:r.loja, link:r.link,
       cupom:r.cupom, desconto:r.desconto, badge:r.badge,
       nota:r.nota??null, pontos:r.pontos||[], review:r.review||"", valeapena:r.valeapena||"",
-      showroom:r.showroom||"", showroomOk:!!r.showroomOk,
+      showroom:r.showroom||"", showroomOk:!!r.showroomOk, showroomStatus:r.showroomStatus||"",
       showroomCor:r.showroomCor||"", showroomManifesto:r.showroomManifesto||"",
       showroomLogoUrl:r.showroomLogoUrl||null, showroomBannerUrl:r.showroomBannerUrl||null, showroomHeroUrl:r.showroomHeroUrl||null,
       destaque:r.destaque, imagem, imagens
@@ -275,8 +279,6 @@ async function main() {
     console.log(`CNAME: ${process.env.CNAME_DOMAIN.trim()}`);
   }
 
-  const data = { generatedAt: new Date().toISOString(), total: produtos.length, categorias, produtos };
-  await fs.writeFile(path.join(DIST, "products.json"), JSON.stringify(data, null, 2));
   await fs.copyFile("index.html", path.join(DIST, "index.html"));
   await fs.writeFile(path.join(DIST, ".nojekyll"), "");
 
@@ -296,6 +298,8 @@ async function main() {
     // Pega assets do 1º produto que tiver preenchido (cor/manifesto/logo/banner são do showroom, não do produto)
     const findFirst = (key) => { for (const p of prods) if (p[key]) return p[key]; return null; };
     const cor = findFirst("showroomCor") || "";
+    // showroom só aparece no menu se algum produto tiver Status "Publicado"
+    const publicado = prods.some(p => p.showroomStatus === "Publicado");
     const manifesto = findFirst("showroomManifesto") || "";
     const logoUrl = findFirst("showroomLogoUrl");
     const bannerUrl = findFirst("showroomBannerUrl");
@@ -345,12 +349,16 @@ async function main() {
     };
     await fs.writeFile(path.join(dir, "products.json"), JSON.stringify(meta, null, 2));
     await fs.copyFile("parceiro.html", path.join(dir, "index.html"));
-    showroomsMeta.push({ nome, slug, total: prods.length, cor });
-    console.log(`  Showroom: ${nome} (${prods.length} produtos${cor?`, cor ${cor}`:''}${logoLocal?', logo ok':''}${bannerLocal?', banner ok':''}${heroLocal?', hero ok':''})`);
+    // só adiciona ao menu público se estiver publicado
+    if (publicado) showroomsMeta.push({ nome, slug, total: prods.length, cor });
+    console.log(`  Showroom: ${nome} (${prods.length} produtos${cor?`, cor ${cor}`:''}${logoLocal?', logo ok':''}${bannerLocal?', banner ok':''}${heroLocal?', hero ok':''}${publicado?' [PUBLICADO]':' [rascunho — oculto no menu]'})`);
   }
   await fs.writeFile(path.join(DIST, "showrooms.json"), JSON.stringify(showroomsMeta, null, 2));
+  // products.json principal — inclui showrooms pra home renderizar o menu
+  const data = { generatedAt: new Date().toISOString(), total: produtos.length, categorias, produtos, showrooms: showroomsMeta };
+  await fs.writeFile(path.join(DIST, "products.json"), JSON.stringify(data, null, 2));
 
-  console.log(`\nPronto. ${produtos.length} produtos, ${categorias.length} categorias, ${showroomsMeta.length} showrooms -> /dist`);
+  console.log(`\nPronto. ${produtos.length} produtos, ${categorias.length} categorias, ${showroomsMeta.length} showrooms publicados -> /dist`);
 }
 
 main().catch((e) => { console.error("\nERRO:", e.message); process.exit(1); });
