@@ -31,6 +31,7 @@ const COL = {
   showroomLogo:"Showroom Logo",
   showroomManifesto:"Showroom Manifesto",
   showroomBanner:"Showroom Banner",
+  showroomHero:"Showroom Hero",
 };
 const STATUS_PUBLICADO = "Publicado";
 const DIST    = "dist";
@@ -79,6 +80,7 @@ function readProps(props) {
   };
   const showroomLogoUrl = pickFirstFileUrl(p(COL.showroomLogo)?.files);
   const showroomBannerUrl = pickFirstFileUrl(p(COL.showroomBanner)?.files);
+  const showroomHeroUrl = pickFirstFileUrl(p(COL.showroomHero)?.files);
   const fotoFiles = p(COL.foto)?.files || [];
 
   // ---- Review ArqSemFiltro (4 colunas) ----
@@ -119,7 +121,7 @@ function readProps(props) {
     destaque:  !!destaque,
     nota, pontos, review, valeapena,
     showroom, showroomOk, showroomCor, showroomManifesto,
-    showroomLogoUrl, showroomBannerUrl,
+    showroomLogoUrl, showroomBannerUrl, showroomHeroUrl,
     fotoUrls,
   };
 }
@@ -225,6 +227,7 @@ function mockRows() {
     showroomManifesto: i===0 ? "A parceria com a Tok&Stok existe porque poucos entendem que mobiliário residencial bem escolhido resolve varejo comercial pequeno — e essa é a única loja no Brasil que trata cada peça como decisão de design, não só de estoque." : (i===1 ? "O Leroy Merlin entrou pra essa curadoria por um motivo simples: quando o lojista precisa transformar espaço sem obra, é lá que a solução chega no dia seguinte." : ""),
     showroomLogoUrl: null,
     showroomBannerUrl: null,
+    showroomHeroUrl: null,
     ...r, link: cleanUrl(r.link)
   }));
 }
@@ -257,7 +260,7 @@ async function main() {
       nota:r.nota??null, pontos:r.pontos||[], review:r.review||"", valeapena:r.valeapena||"",
       showroom:r.showroom||"", showroomOk:!!r.showroomOk,
       showroomCor:r.showroomCor||"", showroomManifesto:r.showroomManifesto||"",
-      showroomLogoUrl:r.showroomLogoUrl||null, showroomBannerUrl:r.showroomBannerUrl||null,
+      showroomLogoUrl:r.showroomLogoUrl||null, showroomBannerUrl:r.showroomBannerUrl||null, showroomHeroUrl:r.showroomHeroUrl||null,
       destaque:r.destaque, imagem, imagens
     });
   }
@@ -296,9 +299,10 @@ async function main() {
     const manifesto = findFirst("showroomManifesto") || "";
     const logoUrl = findFirst("showroomLogoUrl");
     const bannerUrl = findFirst("showroomBannerUrl");
+    const heroUrl = findFirst("showroomHeroUrl");
 
-    // Baixa logo e banner (URLs do Notion expiram)
-    let logoLocal = null, bannerLocal = null;
+    // Baixa logo, banner e hero (URLs do Notion expiram)
+    let logoLocal = null, bannerLocal = null, heroLocal = null;
     if (logoUrl) {
       logoLocal = await downloadImage(logoUrl, `showroom-${slug}-logo`);
       if (logoLocal) {
@@ -320,18 +324,29 @@ async function main() {
         bannerLocal = `banner${ext}`;
       }
     }
+    if (heroUrl) {
+      heroLocal = await downloadImage(heroUrl, `showroom-${slug}-hero`);
+      if (heroLocal) {
+        const from = path.join(DIST, heroLocal);
+        const ext = path.extname(heroLocal);
+        const to = path.join(dir, `hero${ext}`);
+        await fs.rename(from, to);
+        heroLocal = `hero${ext}`;
+      }
+    }
 
     const meta = {
       nome, slug, total: prods.length,
       cor, manifesto,
       logo: logoLocal,
       banner: bannerLocal,
+      hero: heroLocal,
       produtos: prods,
     };
     await fs.writeFile(path.join(dir, "products.json"), JSON.stringify(meta, null, 2));
     await fs.copyFile("parceiro.html", path.join(dir, "index.html"));
     showroomsMeta.push({ nome, slug, total: prods.length, cor });
-    console.log(`  Showroom: ${nome} (${prods.length} produtos${cor?`, cor ${cor}`:''}${logoLocal?', logo ok':''}${bannerLocal?', banner ok':''})`);
+    console.log(`  Showroom: ${nome} (${prods.length} produtos${cor?`, cor ${cor}`:''}${logoLocal?', logo ok':''}${bannerLocal?', banner ok':''}${heroLocal?', hero ok':''})`);
   }
   await fs.writeFile(path.join(DIST, "showrooms.json"), JSON.stringify(showroomsMeta, null, 2));
 
